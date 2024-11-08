@@ -18,6 +18,8 @@ import {
 import useFetch from "./useFetch"
 import useFetch2 from "./useFetch2"
 
+
+const imageUrl = "https://strapi-marketq-c41141cea442.herokuapp.com/"
 const Hero = () => {
   const { data, error, baseUrl } = useFetch("/api/heroes?populate=*")
   if (error) {
@@ -33,7 +35,7 @@ const Hero = () => {
         <NextImage
           className="object-cover"
           src={
-            "/" + data.image ? baseUrl + data.image[0].url : "/sending-emails"
+            "/" + data.image ? imageUrl + data.image[0].url : "/sending-emails"
           }
           alt="Sending emails"
           sizes="50vw"
@@ -71,7 +73,7 @@ const FavoriteProjectCard = ({
     <div className="h-[220px] border-b border-black/[.15] relative">
       <NextImage
         className="object-cover"
-        src={image ? baseUrl + image[0]?.url : "/design-screens.png"}
+        src={image ? imageUrl + image[0]?.url : "/design-screens.png"}
         alt={title || "design-screens"}
         sizes="25vw"
         fill
@@ -164,7 +166,7 @@ const NewestAdditionCard = ({
       <div className="size-[100px] shadow-[0px_2px_5px_0px_rgba(0,0,0,.04)] rounded-[4px] overflow-hidden shrink-0 relative">
         <NextImage
           className="object-cover"
-          src={image ? baseUrl + image[0]?.url : "/design-screens.png"}
+          src={image ? imageUrl + image[0]?.url : "/design-screens.png"}
           alt={title || "Design screens"}
           sizes="10vw"
           fill
@@ -241,7 +243,7 @@ const PopularProjectCard = ({
       <div className="size-[100px] shadow-[0px_2px_5px_0px_rgba(0,0,0,.04)] rounded-[4px] overflow-hidden shrink-0 relative">
         <NextImage
           className="object-cover"
-          src={image ? baseUrl + image[0]?.url : "/design-screens.png"}
+          src={image ? imageUrl + image[0]?.url : "/design-screens.png"}
           alt={title || "Design screens"}
           sizes="10vw"
           fill
@@ -549,7 +551,7 @@ const CategoryTransparentVerticalCard = () => {
 
   const imageSrc =
     data.image && data.image.length > 0
-      ? `${baseUrl}${data.image[0].url}`
+      ? `${imageUrl}${data.image[0].url}`
       : "/working-2.jpeg"
 
   return (
@@ -617,7 +619,7 @@ const CategoryTransparentCard = ({ className }: { className?: string }) => {
 
   const imageSrc =
     data.image && data.image.length > 0
-      ? `${baseUrl}${data.image[0].url}`
+      ? `${imageUrl}${data.image[0].url}`
       : "/cpu-1.png"
   return (
     <article
