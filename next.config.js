@@ -6,6 +6,7 @@ const nextConfig = {
       "lh3.googleusercontent.com",
       "media.licdn.com",
       "localhost",
+      "strapi-marketq-c41141cea442.herokuapp.com"
     ],
     remotePatterns: [
       {
