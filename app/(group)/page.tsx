@@ -1,14 +1,12 @@
 "use client"
 
-import { useEffect, useState } from "react";
-import useFetch from "./useFetch";
+import { useEffect, useState } from "react"
 import { cn } from "@/utils/functions"
 import { ChevronRight } from "@blend-metrics/icons"
 import { Swiper as SwiperRoot, SwiperSlide } from "swiper/react"
 import { Swiper } from "swiper/types"
 import { Blocks1 } from "@/components/blocks-1"
-import NextImage from "@/components/next-image";
-
+import NextImage from "@/components/next-image"
 import {
   Button,
   Favorite,
@@ -17,25 +15,26 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui"
-import useFetch2 from "./useFetch2";
-
-
+import useFetch from "./useFetch"
+import useFetch2 from "./useFetch2"
 
 const Hero = () => {
-  const {data, error, baseUrl} = useFetch('/api/heroes?populate=*');
+  const { data, error, baseUrl } = useFetch("/api/heroes?populate=*")
   if (error) {
-    return <div className="w-full m-auto text-center">Error: {error}</div>;
+    return <div className="w-full m-auto text-center">Error: {error}</div>
   }
 
   if (!data) {
-    return <div className="w-full m-auto text-center">Loading...</div>;
+    return <div className="w-full m-auto text-center">Loading...</div>
   }
   return (
     <div className="relative bg-[#313237]">
       <div className="absolute left-0 inset-y-0 right-0 lg:right-auto lg:w-[53%]">
         <NextImage
           className="object-cover"
-          src={"/"+data.image ? baseUrl  + data.image[0].url: "/sending-emails"}
+          src={
+            "/" + data.image ? baseUrl + data.image[0].url : "/sending-emails"
+          }
           alt="Sending emails"
           sizes="50vw"
           fill
@@ -58,11 +57,16 @@ const Hero = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-
-const FavoriteProjectCard = ({ image, title, description, span, baseUrl }:any) => (
+const FavoriteProjectCard = ({
+  image,
+  title,
+  description,
+  span,
+  baseUrl,
+}: any) => (
   <article className="rounded-lg shrink-0 bg-white border border-[#122A4B]/[.15] overflow-hidden shadow-[0px_2px_5px_0px_rgba(0,0,0,.04)]">
     <div className="h-[220px] border-b border-black/[.15] relative">
       <NextImage
@@ -93,14 +97,18 @@ const FavoriteProjectCard = ({ image, title, description, span, baseUrl }:any) =
       </div>
     </div>
   </article>
-);
+)
 
 const FavoriteProjects = () => {
-  const { data, error, baseUrl } = useFetch2('/api/favorite-project-cards?populate=*');
-  const [controller, setController] = useState<Swiper | null>(null);
+  const { data, error, baseUrl } = useFetch2(
+    "/api/favorite-project-cards?populate=*"
+  )
+  const [controller, setController] = useState<Swiper | null>(null)
 
-  if (error) return <div className="w-full m-auto text-center">Error: {error}</div>;
-  if (!data || !Array.isArray(data)) return <div className="w-full m-auto text-center">Loading...</div>;
+  if (error)
+    return <div className="w-full m-auto text-center">Error: {error}</div>
+  if (!data || !Array.isArray(data))
+    return <div className="w-full m-auto text-center">Loading...</div>
 
   return (
     <div className="max-w-[1420px] mx-auto">
@@ -137,20 +145,26 @@ const FavoriteProjects = () => {
           className="xs:max-lg:hidden focus-visible:outline-none absolute inset-y-0 my-auto -right-[71px]"
           onClick={() => controller?.slideNext()}
         >
-           <ChevronRight className="size-[55px] text-gray-300" />
+          <ChevronRight className="size-[55px] text-gray-300" />
         </button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-const NewestAdditionCard = ({ image, title, description, span, baseUrl }:any) => {
+const NewestAdditionCard = ({
+  image,
+  title,
+  description,
+  span,
+  baseUrl,
+}: any) => {
   return (
     <article className="flex items-start gap-x-[15px] lg:gap-x-[23px]">
       <div className="size-[100px] shadow-[0px_2px_5px_0px_rgba(0,0,0,.04)] rounded-[4px] overflow-hidden shrink-0 relative">
         <NextImage
           className="object-cover"
-          src={image ? baseUrl + image[0]?.url :"/design-screens.png"}
+          src={image ? baseUrl + image[0]?.url : "/design-screens.png"}
           alt={title || "Design screens"}
           sizes="10vw"
           fill
@@ -161,7 +175,7 @@ const NewestAdditionCard = ({ image, title, description, span, baseUrl }:any) =>
           {title}
         </h1>
         <p className="text-sm leading-[16.94px] font-light text-dark-blue-600 mt-[7.5px] lg:mt-[11px]">
-         {description}
+          {description}
         </p>
         <span className="text-sm block mt-[7.5px] lg:mt-[15px] leading-[16.94px] font-light text-dark-blue-600">
           {span}
@@ -172,10 +186,14 @@ const NewestAdditionCard = ({ image, title, description, span, baseUrl }:any) =>
 }
 
 const NewestAdditions = () => {
-  const { data, error, baseUrl } = useFetch2('/api/newest-addition-cards?populate=*');
+  const { data, error, baseUrl } = useFetch2(
+    "/api/newest-addition-cards?populate=*"
+  )
 
-  if (error) return <div className="w-full m-auto text-center">Error: {error}</div>;
-  if (!data || !Array.isArray(data)) return <div className="w-full m-auto text-center">Loading...</div>;
+  if (error)
+    return <div className="w-full m-auto text-center">Error: {error}</div>
+  if (!data || !Array.isArray(data))
+    return <div className="w-full m-auto text-center">Loading...</div>
 
   return (
     <div className="max-w-[1420px] mx-auto">
@@ -189,16 +207,19 @@ const NewestAdditions = () => {
         </Button>
       </div>
       {data.map((project, index) => (
-      <div className="mt-[29px] grid md:grid-cols-2 gap-[25px] lg:gap-y-10 lg:gap-x-[42px]"key={index}>
-        <NewestAdditionCard 
-        image={project.image}
-        title={project.title}
-        description={project.description}
-        span={project.span}
-        baseUrl={baseUrl}
-        />
-      </div>
-       ))}
+        <div
+          className="mt-[29px] grid md:grid-cols-2 gap-[25px] lg:gap-y-10 lg:gap-x-[42px]"
+          key={index}
+        >
+          <NewestAdditionCard
+            image={project.image}
+            title={project.title}
+            description={project.description}
+            span={project.span}
+            baseUrl={baseUrl}
+          />
+        </div>
+      ))}
       <div className="flex items-center mt-[29px] justify-center lg:hidden">
         <Button visual="gray" variant="ghost">
           View More
@@ -208,13 +229,19 @@ const NewestAdditions = () => {
   )
 }
 
-const PopularProjectCard = ({ image, title, description, span, baseUrl }:any) => {
+const PopularProjectCard = ({
+  image,
+  title,
+  description,
+  span,
+  baseUrl,
+}: any) => {
   return (
     <article className="flex items-start gap-x-[23px]">
       <div className="size-[100px] shadow-[0px_2px_5px_0px_rgba(0,0,0,.04)] rounded-[4px] overflow-hidden shrink-0 relative">
         <NextImage
           className="object-cover"
-          src={image ? baseUrl + image[0]?.url :"/design-screens.png"}
+          src={image ? baseUrl + image[0]?.url : "/design-screens.png"}
           alt={title || "Design screens"}
           sizes="10vw"
           fill
@@ -222,7 +249,7 @@ const PopularProjectCard = ({ image, title, description, span, baseUrl }:any) =>
       </div>
       <div className="flex-auto">
         <h1 className="text-lg leading-[21.78px] font-bold text-dark-blue-600">
-         {title}
+          {title}
         </h1>
         <p className="text-sm leading-[16.94px] font-light text-gray-500 mt-[11px]">
           {description}
@@ -236,10 +263,14 @@ const PopularProjectCard = ({ image, title, description, span, baseUrl }:any) =>
 }
 
 const PopularProjects = () => {
-  const { data, error, baseUrl } = useFetch2('/api/popular-project-cards?populate=*');
+  const { data, error, baseUrl } = useFetch2(
+    "/api/popular-project-cards?populate=*"
+  )
 
-  if (error) return <div className="w-full m-auto text-center">Error: {error}</div>;
-  if (!data || !Array.isArray(data)) return <div className="w-full m-auto text-center">Loading...</div>;
+  if (error)
+    return <div className="w-full m-auto text-center">Error: {error}</div>
+  if (!data || !Array.isArray(data))
+    return <div className="w-full m-auto text-center">Loading...</div>
   return (
     <div className="max-w-[1420px] mx-auto">
       <div className="flex items-end justify-between">
@@ -268,17 +299,20 @@ const PopularProjects = () => {
         </TabsList>
 
         <TabsContent value="view-all">
-        {data.map((project, index) => (
-          <div className="pt-[29px] grid md:grid-cols-2 gap-[25px] lg:gap-y-10 lg:gap-x-[42px]" key={index}>
-            <PopularProjectCard 
-             image={project.image}
-             title={project.title}
-             description={project.description}
-             span={project.span}
-             baseUrl={baseUrl}
-            />
-          </div>
-        ))}
+          {data.map((project, index) => (
+            <div
+              className="pt-[29px] grid md:grid-cols-2 gap-[25px] lg:gap-y-10 lg:gap-x-[42px]"
+              key={index}
+            >
+              <PopularProjectCard
+                image={project.image}
+                title={project.title}
+                description={project.description}
+                span={project.span}
+                baseUrl={baseUrl}
+              />
+            </div>
+          ))}
         </TabsContent>
       </Tabs>
 
@@ -292,10 +326,14 @@ const PopularProjects = () => {
 }
 
 const OnlineSalesFunnels = () => {
-  const { data, error, baseUrl } = useFetch2('/api/online-sales-funnels?populate=*');
+  const { data, error, baseUrl } = useFetch2(
+    "/api/online-sales-funnels?populate=*"
+  )
   const [controller, setController] = useState<Swiper>()
-  if (error) return <div className="w-full m-auto text-center">Error: {error}</div>;
-  if (!data || !Array.isArray(data)) return <div className="w-full m-auto text-center">Loading...</div>;
+  if (error)
+    return <div className="w-full m-auto text-center">Error: {error}</div>
+  if (!data || !Array.isArray(data))
+    return <div className="w-full m-auto text-center">Loading...</div>
 
   return (
     <div className="max-w-[1420px] mx-auto">
@@ -329,18 +367,17 @@ const OnlineSalesFunnels = () => {
           spaceBetween={20}
         >
           <SwiperSlide>
-          {data.map((project, index) => (
-            <FavoriteProjectCard
-                  key={index}
-                  image={project.image}
-                  title={project.title}
-                  description={project.description}
-                  span={project.span}
-                  baseUrl={baseUrl}
-            />
-          ))}
+            {data.map((project, index) => (
+              <FavoriteProjectCard
+                key={index}
+                image={project.image}
+                title={project.title}
+                description={project.description}
+                span={project.span}
+                baseUrl={baseUrl}
+              />
+            ))}
           </SwiperSlide>
-
         </SwiperRoot>
         <button
           className="xs:max-lg:hidden focus-visible:outline-none absolute inset-y-0 my-auto -right-[71px]"
@@ -359,10 +396,14 @@ const OnlineSalesFunnels = () => {
 }
 
 const CustomerServiceSolutions = () => {
-  const { data, error, baseUrl } = useFetch2('/api/customer-service-solutions?populate=*');
+  const { data, error, baseUrl } = useFetch2(
+    "/api/customer-service-solutions?populate=*"
+  )
   const [controller, setController] = useState<Swiper>()
-  if (error) return <div className="w-full m-auto text-center">Error: {error}</div>;
-  if (!data || !Array.isArray(data)) return <div className="w-full m-auto text-center">Loading...</div>;
+  if (error)
+    return <div className="w-full m-auto text-center">Error: {error}</div>
+  if (!data || !Array.isArray(data))
+    return <div className="w-full m-auto text-center">Loading...</div>
   return (
     <div className="max-w-[1420px] mx-auto">
       <div className="flex items-end lg:justify-between">
@@ -396,16 +437,16 @@ const CustomerServiceSolutions = () => {
           spaceBetween={20}
         >
           <SwiperSlide>
-            {data.map((project,index) =>
-            <FavoriteProjectCard 
-             key={index}
-             image={project.image}
-             title={project.title}
-             description={project.description}
-             span={project.span}
-             baseUrl={baseUrl}
-            />
-          )}
+            {data.map((project, index) => (
+              <FavoriteProjectCard
+                key={index}
+                image={project.image}
+                title={project.title}
+                description={project.description}
+                span={project.span}
+                baseUrl={baseUrl}
+              />
+            ))}
           </SwiperSlide>
         </SwiperRoot>
 
@@ -426,10 +467,14 @@ const CustomerServiceSolutions = () => {
 }
 
 const MarketingAutomationCampaigns = () => {
-  const { data, error, baseUrl } = useFetch2('/api/marketing-automation-campaigns?populate=*');
+  const { data, error, baseUrl } = useFetch2(
+    "/api/marketing-automation-campaigns?populate=*"
+  )
   const [controller, setController] = useState<Swiper>()
-  if (error) return <div className="w-full m-auto text-center">Error: {error}</div>;
-  if (!data || !Array.isArray(data)) return <div className="w-full m-auto text-center">Loading...</div>;
+  if (error)
+    return <div className="w-full m-auto text-center">Error: {error}</div>
+  if (!data || !Array.isArray(data))
+    return <div className="w-full m-auto text-center">Loading...</div>
   return (
     <div className="max-w-[1420px] mx-auto">
       <div className="flex items-end lg:justify-between">
@@ -463,18 +508,17 @@ const MarketingAutomationCampaigns = () => {
           spaceBetween={20}
         >
           <SwiperSlide>
-          {data.map((project,index) =>
-            <FavoriteProjectCard 
-             key={index}
-             image={project.image}
-             title={project.title}
-             description={project.description}
-             span={project.span}
-             baseUrl={baseUrl}
-            />
-          )}
+            {data.map((project, index) => (
+              <FavoriteProjectCard
+                key={index}
+                image={project.image}
+                title={project.title}
+                description={project.description}
+                span={project.span}
+                baseUrl={baseUrl}
+              />
+            ))}
           </SwiperSlide>
-
         </SwiperRoot>
 
         <button
@@ -494,15 +538,19 @@ const MarketingAutomationCampaigns = () => {
 }
 
 const CategoryTransparentVerticalCard = () => {
-  const { data, error, baseUrl } = useFetch('/api/most-popular-projects?populate=*');
+  const { data, error, baseUrl } = useFetch(
+    "/api/most-popular-projects?populate=*"
+  )
 
-  if (error) return <div className="w-full m-auto text-center">Error: {error}</div>;
+  if (error)
+    return <div className="w-full m-auto text-center">Error: {error}</div>
 
-  if (!data) return <div className="w-full m-auto text-center">Loading...</div>;
+  if (!data) return <div className="w-full m-auto text-center">Loading...</div>
 
-  const imageSrc = data.image && data.image.length > 0
-    ? `${baseUrl}${data.image[0].url}`
-    : "/working-2.jpeg";
+  const imageSrc =
+    data.image && data.image.length > 0
+      ? `${baseUrl}${data.image[0].url}`
+      : "/working-2.jpeg"
 
   return (
     <article className="flex rounded-lg overflow-hidden relative p-5 lg:px-[50px] lg:py-[55px] bg-white shadow-[0px_2px_5px_0px_theme(colors.black/[0.04])]">
@@ -527,15 +575,16 @@ const CategoryTransparentVerticalCard = () => {
         </button>
       </div>
     </article>
-  );
-};
+  )
+}
 
 const CategoryVerticalCard = () => {
-  const { data, error} = useFetch('/api/category-vertical-cards?populate=*');
+  const { data, error } = useFetch("/api/category-vertical-cards?populate=*")
 
-  if (error) return <div className="w-full m-auto text-center">Error: {error}</div>;
+  if (error)
+    return <div className="w-full m-auto text-center">Error: {error}</div>
 
-  if (!data) return <div className="w-full m-auto text-center">Loading...</div>;
+  if (!data) return <div className="w-full m-auto text-center">Loading...</div>
 
   return (
     <article className="relative overflow-hidden flex xs:max-md:flex-col lg:flex-col rounded-lg p-5 lg:pt-[55px] lg:px-[50px] lg:pb-[7.56px] bg-black shadow-[0px_2px_5px_0px_theme(colors.black/[0.04])]">
@@ -557,15 +606,19 @@ const CategoryVerticalCard = () => {
 }
 
 const CategoryTransparentCard = ({ className }: { className?: string }) => {
-  const { data, error, baseUrl } = useFetch('/api/category-transparent-cards?populate=*');
+  const { data, error, baseUrl } = useFetch(
+    "/api/category-transparent-cards?populate=*"
+  )
 
-  if (error) return <div className="w-full m-auto text-center">Error: {error}</div>;
+  if (error)
+    return <div className="w-full m-auto text-center">Error: {error}</div>
 
-  if (!data) return <div className="w-full m-auto text-center">Loading...</div>;
+  if (!data) return <div className="w-full m-auto text-center">Loading...</div>
 
-  const imageSrc = data.image && data.image.length > 0
-    ? `${baseUrl}${data.image[0].url}`
-    : "/cpu-1.png";
+  const imageSrc =
+    data.image && data.image.length > 0
+      ? `${baseUrl}${data.image[0].url}`
+      : "/cpu-1.png"
   return (
     <article
       className={cn(

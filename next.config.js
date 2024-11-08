@@ -5,7 +5,7 @@ const nextConfig = {
       "avatars.githubusercontent.com",
       "lh3.googleusercontent.com",
       "media.licdn.com",
-      "localhost"
+      "localhost",
     ],
     remotePatterns: [
       {
