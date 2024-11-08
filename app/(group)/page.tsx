@@ -19,7 +19,7 @@ import useFetch from "./useFetch"
 import useFetch2 from "./useFetch2"
 
 
-const imageUrl = "https://strapi-marketq-c41141cea442.herokuapp.com/"
+const imageUrl = "https://strapi-marketq-c41141cea442.herokuapp.com"
 const Hero = () => {
   const { data, error, baseUrl } = useFetch("/api/heroes?populate=*")
   if (error) {
