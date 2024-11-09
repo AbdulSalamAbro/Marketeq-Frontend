@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { cn } from "@/utils/functions"
-import { ChevronRight } from "@blend-metrics/icons"
+import { ChevronLeft, ChevronRight } from "@blend-metrics/icons"
 import { Swiper as SwiperRoot, SwiperSlide } from "swiper/react"
 import { Swiper } from "swiper/types"
 import { Blocks1 } from "@/components/blocks-1"
@@ -17,7 +17,6 @@ import {
 } from "@/components/ui"
 import useFetch from "./useFetch"
 import useFetch2 from "./useFetch2"
-
 
 const imageUrl = "https://strapi-marketq-c41141cea442.herokuapp.com"
 const Hero = () => {
@@ -62,132 +61,131 @@ const Hero = () => {
   )
 }
 
-const FavoriteProjectCard = ({
-  image,
-  title,
-  description,
-  span,
-  baseUrl,
-}: any) => (
-  <article className="rounded-lg shrink-0 bg-white border border-[#122A4B]/[.15] overflow-hidden shadow-[0px_2px_5px_0px_rgba(0,0,0,.04)]">
-    <div className="h-[220px] border-b border-black/[.15] relative">
-      <NextImage
-        className="object-cover"
-        src={image ? imageUrl + image[0]?.url : "/design-screens.png"}
-        alt={title || "design-screens"}
-        sizes="25vw"
-        fill
-      />
-    </div>
-    <div className="p-5 min-h-[220px]">
-      <h1 className="text-base leading-[19.36px] font-bold text-dark-blue-600">
-        {title}
-      </h1>
-      <p className="text-sm mt-3 leading-[16.94px] font-light text-gray-500">
-        {description}
-      </p>
-
-      <div className="flex items-center mt-[9px] gap-x-[16.33px] md:mt-[16.98px] justify-between">
-        <span className="text-sm leading-[16.94px] text-dark-blue-600 font-light">
-          {span}
-        </span>
-
-        <Favorite
-          starClassName="size-5"
-          className="size-5 shrink-0 text-[#122A4B]/[.15]"
-        />
-      </div>
-    </div>
-  </article>
-)
-
-const FavoriteProjects = () => {
+const FavoriteProjectCard = () => {
   const { data, error, baseUrl } = useFetch2(
     "/api/favorite-project-cards?populate=*"
   )
-  const [controller, setController] = useState<Swiper | null>(null)
 
   if (error)
     return <div className="w-full m-auto text-center">Error: {error}</div>
   if (!data || !Array.isArray(data))
     return <div className="w-full m-auto text-center">Loading...</div>
+  return (
+    <article className="rounded-lg shrink-0 bg-white border border-[#122A4B]/[.15] overflow-hidden shadow-[0px_2px_5px_0px_rgba(0,0,0,.04)]">
+      <div className="h-[140px] border-b border-black/[.15] relative">
+        <NextImage
+          className="object-cover"
+          src={
+            data.image ? imageUrl + data.image[0]?.url : "/design-screens.png"
+          }
+          alt="Design screens"
+          sizes="25vw"
+          fill
+        />
+      </div>
+      <div className="p-5">
+        <h1 className="text-base leading-[19.36px] font-bold text-dark-blue-600">
+          The Ultimate Mobile App Experience
+        </h1>
+        <p className="text-sm mt-3 leading-[16.94px] font-light text-gray-500">
+          A complete funnel for your customer service needs
+        </p>
 
+        <div className="flex items-center mt-[9px] gap-x-[16.33px] md:mt-[16.98px] justify-between">
+          <span className="text-sm leading-[16.94px] text-dark-blue-600 font-light">
+            Starts at $40k, 12 weeks
+          </span>
+
+          <Favorite
+            starClassName="size-5"
+            className="size-5 shrink-0 text-[#122A4B]/[.15]"
+          />
+        </div>
+      </div>
+    </article>
+  )
+}
+
+const FavoriteProjects = () => {
+  const [controller, setController] = useState<Swiper>()
   return (
     <div className="max-w-[1420px] mx-auto">
       <div className="flex items-end justify-between">
         <h1 className="text-2xl leading-[29.05px] lg:text-4xl lg:leading-[43.57px] font-bold text-dark-blue-600">
           Our Favorite Projects
         </h1>
+
+        <Button className="xs:max-lg:hidden" visual="gray" variant="link">
+          View More
+        </Button>
       </div>
 
       <div className="relative mt-5 lg:mt-[42px]">
+        {controller?.allowSlidePrev && (
+          <button
+            className="xs:max-lg:hidden focus-visible:outline-none absolute inset-y-0 my-auto -left-[71px] text-gray-300 hover:text-gray-500"
+            onClick={() => controller?.slidePrev()}
+          >
+            <ChevronLeft className="size-[55px]" />
+          </button>
+        )}
+
         <SwiperRoot
           slidesPerView={1}
           breakpoints={{
-            1200: { slidesPerView: 5 },
-            768: { slidesPerView: 3 },
+            1200: {
+              slidesPerView: 5,
+            },
+            768: {
+              slidesPerView: 3,
+            },
           }}
-          onInit={(swiper) => setController(swiper)}
+          onInit={setController}
           spaceBetween={20}
         >
-          {data.map((project, index) => (
-            <SwiperSlide key={index}>
-              <FavoriteProjectCard
-                image={project.image}
-                title={project.title}
-                description={project.description}
-                span={project.span}
-                baseUrl={baseUrl}
-              />
-            </SwiperSlide>
-          ))}
+          <SwiperSlide>
+            <FavoriteProjectCard />
+          </SwiperSlide>
+          <SwiperSlide>
+            <FavoriteProjectCard />
+          </SwiperSlide>
+          <SwiperSlide>
+            <FavoriteProjectCard />
+          </SwiperSlide>
+          <SwiperSlide>
+            <FavoriteProjectCard />
+          </SwiperSlide>
+          <SwiperSlide>
+            <FavoriteProjectCard />
+          </SwiperSlide>
+          <SwiperSlide>
+            <FavoriteProjectCard />
+          </SwiperSlide>
+          <SwiperSlide>
+            <FavoriteProjectCard />
+          </SwiperSlide>
         </SwiperRoot>
 
-        <button
-          className="xs:max-lg:hidden focus-visible:outline-none absolute inset-y-0 my-auto -right-[71px]"
-          onClick={() => controller?.slideNext()}
-        >
-          <ChevronRight className="size-[55px] text-gray-300" />
-        </button>
+        {controller?.allowSlideNext && (
+          <button
+            className="xs:max-lg:hidden focus-visible:outline-none absolute inset-y-0 my-auto -right-[71px] text-gray-300 hover:text-gray-500"
+            onClick={() => controller?.slideNext()}
+          >
+            <ChevronRight className="size-[55px]" />
+          </button>
+        )}
+      </div>
+
+      <div className="flex items-center mt-5 justify-center lg:hidden">
+        <Button visual="gray" variant="ghost">
+          View More
+        </Button>
       </div>
     </div>
   )
 }
 
-const NewestAdditionCard = ({
-  image,
-  title,
-  description,
-  span,
-  baseUrl,
-}: any) => {
-  return (
-    <article className="flex items-start gap-x-[15px] lg:gap-x-[23px]">
-      <div className="size-[100px] shadow-[0px_2px_5px_0px_rgba(0,0,0,.04)] rounded-[4px] overflow-hidden shrink-0 relative">
-        <NextImage
-          className="object-cover"
-          src={image ? imageUrl + image[0]?.url : "/design-screens.png"}
-          alt={title || "Design screens"}
-          sizes="10vw"
-          fill
-        />
-      </div>
-      <div className="flex-auto">
-        <h1 className="text-sm leading-[16.94px] lg:text-lg lg:leading-[21.78px] font-bold text-dark-blue-600">
-          {title}
-        </h1>
-        <p className="text-sm leading-[16.94px] font-light text-dark-blue-600 mt-[7.5px] lg:mt-[11px]">
-          {description}
-        </p>
-        <span className="text-sm block mt-[7.5px] lg:mt-[15px] leading-[16.94px] font-light text-dark-blue-600">
-          {span}
-        </span>
-      </div>
-    </article>
-  )
-}
-
-const NewestAdditions = () => {
+const NewestAdditionCard = () => {
   const { data, error, baseUrl } = useFetch2(
     "/api/newest-addition-cards?populate=*"
   )
@@ -196,7 +194,36 @@ const NewestAdditions = () => {
     return <div className="w-full m-auto text-center">Error: {error}</div>
   if (!data || !Array.isArray(data))
     return <div className="w-full m-auto text-center">Loading...</div>
+  return (
+    <article className="flex items-start gap-x-[15px] lg:gap-x-[23px]">
+      <div className="size-[100px] shadow-[0px_2px_5px_0px_rgba(0,0,0,.04)] rounded-[4px] overflow-hidden shrink-0 relative">
+        <NextImage
+          className="object-cover"
+          src={
+            data.image ? imageUrl + data.image[0]?.url : "/design-screens.png"
+          }
+          alt="Design screens"
+          sizes="10vw"
+          fill
+        />
+      </div>
+      <div className="flex-auto">
+        <h1 className="text-sm leading-[16.94px] lg:text-lg lg:leading-[21.78px] font-bold text-dark-blue-600">
+          SEO Enterprise
+        </h1>
+        <p className="text-sm leading-[16.94px] font-light text-dark-blue-600 mt-[7.5px] lg:mt-[11px]">
+          Sed ut perspiciatis unde omnis iste natus error sit voluptatem
+          accusantium doloremque{" "}
+        </p>
+        <span className="text-sm block mt-[7.5px] lg:mt-[15px] leading-[16.94px] font-light text-dark-blue-600">
+          Starts at $40k, 12 weeks
+        </span>
+      </div>
+    </article>
+  )
+}
 
+const NewestAdditions = () => {
   return (
     <div className="max-w-[1420px] mx-auto">
       <div className="flex items-end justify-between">
@@ -208,20 +235,16 @@ const NewestAdditions = () => {
           View More
         </Button>
       </div>
-      {data.map((project, index) => (
-        <div
-          className="mt-[29px] grid md:grid-cols-2 gap-[25px] lg:gap-y-10 lg:gap-x-[42px]"
-          key={index}
-        >
-          <NewestAdditionCard
-            image={project.image}
-            title={project.title}
-            description={project.description}
-            span={project.span}
-            baseUrl={baseUrl}
-          />
-        </div>
-      ))}
+
+      <div className="mt-[29px] grid md:grid-cols-2 gap-[25px] lg:gap-y-10 lg:gap-x-[42px]">
+        <NewestAdditionCard />
+        <NewestAdditionCard />
+        <NewestAdditionCard />
+        <NewestAdditionCard />
+        <NewestAdditionCard />
+        <NewestAdditionCard />
+      </div>
+
       <div className="flex items-center mt-[29px] justify-center lg:hidden">
         <Button visual="gray" variant="ghost">
           View More
@@ -231,40 +254,7 @@ const NewestAdditions = () => {
   )
 }
 
-const PopularProjectCard = ({
-  image,
-  title,
-  description,
-  span,
-  baseUrl,
-}: any) => {
-  return (
-    <article className="flex items-start gap-x-[23px]">
-      <div className="size-[100px] shadow-[0px_2px_5px_0px_rgba(0,0,0,.04)] rounded-[4px] overflow-hidden shrink-0 relative">
-        <NextImage
-          className="object-cover"
-          src={image ? imageUrl + image[0]?.url : "/design-screens.png"}
-          alt={title || "Design screens"}
-          sizes="10vw"
-          fill
-        />
-      </div>
-      <div className="flex-auto">
-        <h1 className="text-lg leading-[21.78px] font-bold text-dark-blue-600">
-          {title}
-        </h1>
-        <p className="text-sm leading-[16.94px] font-light text-gray-500 mt-[11px]">
-          {description}
-        </p>
-        <span className="text-sm block mt-[15px] leading-[16.94px] font-light text-dark-blue-600">
-          {span}
-        </span>
-      </div>
-    </article>
-  )
-}
-
-const PopularProjects = () => {
+const PopularProjectCard = () => {
   const { data, error, baseUrl } = useFetch2(
     "/api/popular-project-cards?populate=*"
   )
@@ -273,6 +263,36 @@ const PopularProjects = () => {
     return <div className="w-full m-auto text-center">Error: {error}</div>
   if (!data || !Array.isArray(data))
     return <div className="w-full m-auto text-center">Loading...</div>
+  return (
+    <article className="flex items-start gap-x-[23px]">
+      <div className="size-[100px] shadow-[0px_2px_5px_0px_rgba(0,0,0,.04)] rounded-[4px] overflow-hidden shrink-0 relative">
+        <NextImage
+          className="object-cover"
+          src={
+            data.image ? imageUrl + data.image[0]?.url : "/design-screens.png"
+          }
+          alt="Design screens"
+          sizes="10vw"
+          fill
+        />
+      </div>
+      <div className="flex-auto">
+        <h1 className="text-lg leading-[21.78px] font-bold text-dark-blue-600">
+          SEO Enterprise
+        </h1>
+        <p className="text-sm leading-[16.94px] font-light text-gray-500 mt-[11px]">
+          Sed ut perspiciatis unde omnis iste natus error sit voluptatem
+          accusantium doloremque{" "}
+        </p>
+        <span className="text-sm block mt-[15px] leading-[16.94px] font-light text-dark-blue-600">
+          Starts at $40k, 12 weeks
+        </span>
+      </div>
+    </article>
+  )
+}
+
+const PopularProjects = () => {
   return (
     <div className="max-w-[1420px] mx-auto">
       <div className="flex items-end justify-between">
@@ -301,20 +321,14 @@ const PopularProjects = () => {
         </TabsList>
 
         <TabsContent value="view-all">
-          {data.map((project, index) => (
-            <div
-              className="pt-[29px] grid md:grid-cols-2 gap-[25px] lg:gap-y-10 lg:gap-x-[42px]"
-              key={index}
-            >
-              <PopularProjectCard
-                image={project.image}
-                title={project.title}
-                description={project.description}
-                span={project.span}
-                baseUrl={baseUrl}
-              />
-            </div>
-          ))}
+          <div className="pt-[29px] grid md:grid-cols-2 gap-[25px] lg:gap-y-10 lg:gap-x-[42px]">
+            <PopularProjectCard />
+            <PopularProjectCard />
+            <PopularProjectCard />
+            <PopularProjectCard />
+            <PopularProjectCard />
+            <PopularProjectCard />
+          </div>
         </TabsContent>
       </Tabs>
 
@@ -328,15 +342,7 @@ const PopularProjects = () => {
 }
 
 const OnlineSalesFunnels = () => {
-  const { data, error, baseUrl } = useFetch2(
-    "/api/online-sales-funnels?populate=*"
-  )
   const [controller, setController] = useState<Swiper>()
-  if (error)
-    return <div className="w-full m-auto text-center">Error: {error}</div>
-  if (!data || !Array.isArray(data))
-    return <div className="w-full m-auto text-center">Loading...</div>
-
   return (
     <div className="max-w-[1420px] mx-auto">
       <div className="flex items-end lg:justify-between">
@@ -355,6 +361,14 @@ const OnlineSalesFunnels = () => {
       </div>
 
       <div className="relative mt-5 lg:mt-[42px]">
+        {controller?.allowSlidePrev && (
+          <button
+            className="xs:max-lg:hidden focus-visible:outline-none absolute inset-y-0 my-auto -left-[71px] text-gray-300 hover:text-gray-500"
+            onClick={() => controller?.slidePrev()}
+          >
+            <ChevronLeft className="size-[55px]" />
+          </button>
+        )}
         <SwiperRoot
           slidesPerView={1}
           breakpoints={{
@@ -369,24 +383,36 @@ const OnlineSalesFunnels = () => {
           spaceBetween={20}
         >
           <SwiperSlide>
-            {data.map((project, index) => (
-              <FavoriteProjectCard
-                key={index}
-                image={project.image}
-                title={project.title}
-                description={project.description}
-                span={project.span}
-                baseUrl={baseUrl}
-              />
-            ))}
+            <FavoriteProjectCard />
+          </SwiperSlide>
+          <SwiperSlide>
+            <FavoriteProjectCard />
+          </SwiperSlide>
+          <SwiperSlide>
+            <FavoriteProjectCard />
+          </SwiperSlide>
+          <SwiperSlide>
+            <FavoriteProjectCard />
+          </SwiperSlide>
+          <SwiperSlide>
+            <FavoriteProjectCard />
+          </SwiperSlide>
+          <SwiperSlide>
+            <FavoriteProjectCard />
+          </SwiperSlide>
+          <SwiperSlide>
+            <FavoriteProjectCard />
           </SwiperSlide>
         </SwiperRoot>
-        <button
-          className="xs:max-lg:hidden focus-visible:outline-none absolute inset-y-0 my-auto -right-[71px]"
-          onClick={() => controller?.slideNext()}
-        >
-          <ChevronRight className="size-[55px] text-gray-300" />
-        </button>
+
+        {controller?.allowSlideNext && (
+          <button
+            className="xs:max-lg:hidden focus-visible:outline-none absolute inset-y-0 my-auto -right-[71px] text-gray-300 hover:text-gray-500"
+            onClick={() => controller?.slideNext()}
+          >
+            <ChevronRight className="size-[55px]" />
+          </button>
+        )}
       </div>
       <div className="flex items-center mt-[29px] justify-center lg:hidden">
         <Button visual="gray" variant="ghost">
@@ -398,14 +424,7 @@ const OnlineSalesFunnels = () => {
 }
 
 const CustomerServiceSolutions = () => {
-  const { data, error, baseUrl } = useFetch2(
-    "/api/customer-service-solutions?populate=*"
-  )
   const [controller, setController] = useState<Swiper>()
-  if (error)
-    return <div className="w-full m-auto text-center">Error: {error}</div>
-  if (!data || !Array.isArray(data))
-    return <div className="w-full m-auto text-center">Loading...</div>
   return (
     <div className="max-w-[1420px] mx-auto">
       <div className="flex items-end lg:justify-between">
@@ -425,6 +444,15 @@ const CustomerServiceSolutions = () => {
       </div>
 
       <div className="relative mt-5 lg:mt-[42px]">
+        {controller?.allowSlidePrev && (
+          <button
+            className="xs:max-lg:hidden focus-visible:outline-none absolute inset-y-0 my-auto -left-[71px] text-gray-300 hover:text-gray-500"
+            onClick={() => controller?.slidePrev()}
+          >
+            <ChevronLeft className="size-[55px]" />
+          </button>
+        )}
+
         <SwiperRoot
           slidesPerView={1}
           breakpoints={{
@@ -439,25 +467,36 @@ const CustomerServiceSolutions = () => {
           spaceBetween={20}
         >
           <SwiperSlide>
-            {data.map((project, index) => (
-              <FavoriteProjectCard
-                key={index}
-                image={project.image}
-                title={project.title}
-                description={project.description}
-                span={project.span}
-                baseUrl={baseUrl}
-              />
-            ))}
+            <FavoriteProjectCard />
+          </SwiperSlide>
+          <SwiperSlide>
+            <FavoriteProjectCard />
+          </SwiperSlide>
+          <SwiperSlide>
+            <FavoriteProjectCard />
+          </SwiperSlide>
+          <SwiperSlide>
+            <FavoriteProjectCard />
+          </SwiperSlide>
+          <SwiperSlide>
+            <FavoriteProjectCard />
+          </SwiperSlide>
+          <SwiperSlide>
+            <FavoriteProjectCard />
+          </SwiperSlide>
+          <SwiperSlide>
+            <FavoriteProjectCard />
           </SwiperSlide>
         </SwiperRoot>
 
-        <button
-          className="xs:max-lg:hidden focus-visible:outline-none absolute inset-y-0 my-auto -right-[71px]"
-          onClick={() => controller?.slideNext()}
-        >
-          <ChevronRight className="size-[55px] text-gray-300" />
-        </button>
+        {controller?.allowSlideNext && (
+          <button
+            className="xs:max-lg:hidden focus-visible:outline-none absolute inset-y-0 my-auto -right-[71px] text-gray-300 hover:text-gray-500"
+            onClick={() => controller?.slideNext()}
+          >
+            <ChevronRight className="size-[55px]" />
+          </button>
+        )}
       </div>
       <div className="flex items-center mt-[29px] justify-center lg:hidden">
         <Button visual="gray" variant="ghost">
@@ -469,14 +508,7 @@ const CustomerServiceSolutions = () => {
 }
 
 const MarketingAutomationCampaigns = () => {
-  const { data, error, baseUrl } = useFetch2(
-    "/api/marketing-automation-campaigns?populate=*"
-  )
   const [controller, setController] = useState<Swiper>()
-  if (error)
-    return <div className="w-full m-auto text-center">Error: {error}</div>
-  if (!data || !Array.isArray(data))
-    return <div className="w-full m-auto text-center">Loading...</div>
   return (
     <div className="max-w-[1420px] mx-auto">
       <div className="flex items-end lg:justify-between">
@@ -496,6 +528,15 @@ const MarketingAutomationCampaigns = () => {
       </div>
 
       <div className="relative mt-5 lg:mt-[42px]">
+        {controller?.allowSlidePrev && (
+          <button
+            className="xs:max-lg:hidden focus-visible:outline-none absolute inset-y-0 my-auto -left-[71px] text-gray-300 hover:text-gray-500"
+            onClick={() => controller?.slidePrev()}
+          >
+            <ChevronLeft className="size-[55px]" />
+          </button>
+        )}
+
         <SwiperRoot
           slidesPerView={1}
           breakpoints={{
@@ -510,25 +551,36 @@ const MarketingAutomationCampaigns = () => {
           spaceBetween={20}
         >
           <SwiperSlide>
-            {data.map((project, index) => (
-              <FavoriteProjectCard
-                key={index}
-                image={project.image}
-                title={project.title}
-                description={project.description}
-                span={project.span}
-                baseUrl={baseUrl}
-              />
-            ))}
+            <FavoriteProjectCard />
+          </SwiperSlide>
+          <SwiperSlide>
+            <FavoriteProjectCard />
+          </SwiperSlide>
+          <SwiperSlide>
+            <FavoriteProjectCard />
+          </SwiperSlide>
+          <SwiperSlide>
+            <FavoriteProjectCard />
+          </SwiperSlide>
+          <SwiperSlide>
+            <FavoriteProjectCard />
+          </SwiperSlide>
+          <SwiperSlide>
+            <FavoriteProjectCard />
+          </SwiperSlide>
+          <SwiperSlide>
+            <FavoriteProjectCard />
           </SwiperSlide>
         </SwiperRoot>
 
-        <button
-          className="xs:max-lg:hidden focus-visible:outline-none absolute inset-y-0 my-auto -right-[71px]"
-          onClick={() => controller?.slideNext()}
-        >
-          <ChevronRight className="size-[55px] text-gray-300" />
-        </button>
+        {controller?.allowSlideNext && (
+          <button
+            className="xs:max-lg:hidden focus-visible:outline-none absolute inset-y-0 my-auto -right-[71px] text-gray-300 hover:text-gray-500"
+            onClick={() => controller?.slideNext()}
+          >
+            <ChevronRight className="size-[55px]" />
+          </button>
+        )}
       </div>
       <div className="flex items-center mt-[29px] justify-center lg:hidden">
         <Button visual="gray" variant="ghost">
@@ -573,7 +625,7 @@ const CategoryTransparentVerticalCard = () => {
         </h1>
 
         <button className="focus-visible:outline-none whitespace-nowrap shrink-0 border-2 h-10 border-white px-3.5 rounded-[5px] flex items-center justify-center text-[13px] leading-6 font-semibold text-white">
-          {data.button || "Browse Projects"}
+          {data.button}
         </button>
       </div>
     </article>
@@ -621,6 +673,7 @@ const CategoryTransparentCard = ({ className }: { className?: string }) => {
     data.image && data.image.length > 0
       ? `${imageUrl}${data.image[0].url}`
       : "/cpu-1.png"
+
   return (
     <article
       className={cn(
@@ -692,7 +745,7 @@ const Categories = () => {
   )
 }
 
-export default async function Marketplace() {
+export default function Marketplace() {
   return (
     <div className="bg-gray-25">
       <Hero />
