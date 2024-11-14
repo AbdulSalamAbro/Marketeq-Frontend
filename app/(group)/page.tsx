@@ -17,7 +17,7 @@ import {
 } from "@/components/ui"
 import useFetch2 from "./useFetch2";
 
-  const imgUrl = "http://localhost:1337"
+  const imgUrl = "https://strapi-marketq-c41141cea442.herokuapp.com"
 const Hero = () => {
   const { data, error } = useFetch2('/api/page1?populate=s1.image');
 
@@ -80,15 +80,15 @@ const FavoriteProjectCard = () => {
       </div>
       <div className="p-5">
         <h1 className="text-base leading-[19.36px] font-bold text-dark-blue-600">
-          {data?.s2[0].title}
+          {data?.s2[0]?.title}
         </h1>
         <p className="text-sm mt-3 leading-[16.94px] font-light text-gray-500">
-          {data?.s2[0].description}
+          {data?.s2[0]?.description}
         </p>
 
         <div className="flex items-center mt-[9px] gap-x-[16.33px] md:mt-[16.98px] justify-between">
           <span className="text-sm leading-[16.94px] text-dark-blue-600 font-light">
-            {data?.s2[0].span}
+            {data?.s2[0]?.span}
           </span>
 
           <Favorite
