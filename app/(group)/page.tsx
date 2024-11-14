@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { cn } from "@/utils/functions"
 import { ChevronLeft, ChevronRight } from "@blend-metrics/icons"
 import { Swiper as SwiperRoot, SwiperSlide } from "swiper/react"
@@ -15,45 +15,45 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui"
-import useFetch from "./useFetch"
-import useFetch2 from "./useFetch2"
+import useFetch2 from "./useFetch2";
 
-const imageUrl = "https://strapi-marketq-c41141cea442.herokuapp.com"
+  const imgUrl = "http://localhost:1337"
 const Hero = () => {
-  const { data, error, baseUrl } = useFetch("/api/heroes?populate=*")
+  const { data, error } = useFetch2('/api/page1?populate=s1.image');
+
+
   if (error) {
-    return <div className="w-full m-auto text-center">Error: {error}</div>
+    return <div>Error: {error}</div>;
   }
 
   if (!data) {
-    return <div className="w-full m-auto text-center">Loading...</div>
+    return <div>No data available</div>;
   }
   return (
     <div className="relative bg-[#313237]">
       <div className="absolute left-0 inset-y-0 right-0 lg:right-auto lg:w-[53%]">
-        <NextImage
-          className="object-cover"
-          src={
-            "/" + data.image ? imageUrl + data.image[0].url : "/sending-emails"
-          }
-          alt="Sending emails"
-          sizes="50vw"
-          fill
-        />
+      <NextImage
+        loader={({ src }) => imgUrl+src}
+        className="object-cover"
+        src={data.s1.image[0].url}
+        alt="Sending emails"
+        sizes="50vw"
+        fill
+      />
       </div>
       <div className="absolute lg:hidden inset-0 bg-[linear-gradient(255.56deg,rgba(49,50,55,1)_19.12%,rgba(49,50,55,0)_127.26%)]" />
 
-      <div className="relative max-w-[512.83px] lg:max-w-[1420px] lg:mx-auto pt-10 pl-10 pb-[75px] lg:pl-0 lg:pb-[126.25px] lg:pt-[92px]">
+      <div className="relative max-w-[290.41px] md:max-w-[562.83px] lg:max-w-[1420px] lg:mx-auto pt-10 pl-10 pb-[75px] lg:pl-0 lg:pb-[126.25px] lg:pt-[92px]">
         <div className="lg:max-w-[493px] lg:ml-auto">
           <h1 className="text-[30px] leading-[36.31px] lg:text-4xl lg:leading-[43.57px] font-bold text-white">
-            {data.title}
+            {data.s1.title}
           </h1>
           <p className="text-sm leading-[16.94px] lg:text-lg mt-[7px] lg:mt-[5px] lg:leading-[21.78px] text-white font-light">
-            {data.description}
+          {data.s1.description}
           </p>
 
           <button className="focus-visible:outline-none whitespace-nowrap shrink-0 mt-[46px] lg:mt-[38px] border-2 h-10 border-white px-3.5 rounded-[5px] flex items-center justify-center text-[13px] leading-6 font-semibold text-white">
-            {data.button}
+          {data.s1.button}
           </button>
         </div>
       </div>
@@ -62,22 +62,17 @@ const Hero = () => {
 }
 
 const FavoriteProjectCard = () => {
-  const { data, error, baseUrl } = useFetch2(
-    "/api/favorite-project-cards?populate=*"
-  )
+  const { data, error } = useFetch2('/api/page1?populate=s2.image');
+  const imageUrl = data?.s2[0]?.image[0]?.url || '/uploads/default-image.png'; 
 
-  if (error)
-    return <div className="w-full m-auto text-center">Error: {error}</div>
-  if (!data || !Array.isArray(data))
-    return <div className="w-full m-auto text-center">Loading...</div>
+ 
   return (
     <article className="rounded-lg shrink-0 bg-white border border-[#122A4B]/[.15] overflow-hidden shadow-[0px_2px_5px_0px_rgba(0,0,0,.04)]">
       <div className="h-[140px] border-b border-black/[.15] relative">
-        <NextImage
+      <NextImage
+          loader={({ src }) => imgUrl + src} 
           className="object-cover"
-          src={
-            data.image ? imageUrl + data.image[0]?.url : "/design-screens.png"
-          }
+          src={imageUrl} 
           alt="Design screens"
           sizes="25vw"
           fill
@@ -85,15 +80,15 @@ const FavoriteProjectCard = () => {
       </div>
       <div className="p-5">
         <h1 className="text-base leading-[19.36px] font-bold text-dark-blue-600">
-          The Ultimate Mobile App Experience
+          {data?.s2[0].title}
         </h1>
         <p className="text-sm mt-3 leading-[16.94px] font-light text-gray-500">
-          A complete funnel for your customer service needs
+          {data?.s2[0].description}
         </p>
 
         <div className="flex items-center mt-[9px] gap-x-[16.33px] md:mt-[16.98px] justify-between">
           <span className="text-sm leading-[16.94px] text-dark-blue-600 font-light">
-            Starts at $40k, 12 weeks
+            {data?.s2[0].span}
           </span>
 
           <Favorite
@@ -103,7 +98,7 @@ const FavoriteProjectCard = () => {
         </div>
       </div>
     </article>
-  )
+  );
 }
 
 const FavoriteProjects = () => {
@@ -186,22 +181,15 @@ const FavoriteProjects = () => {
 }
 
 const NewestAdditionCard = () => {
-  const { data, error, baseUrl } = useFetch2(
-    "/api/newest-addition-cards?populate=*"
-  )
-
-  if (error)
-    return <div className="w-full m-auto text-center">Error: {error}</div>
-  if (!data || !Array.isArray(data))
-    return <div className="w-full m-auto text-center">Loading...</div>
+  const { data, error } = useFetch2('/api/page1?populate=s3.image');
+  const imageUrl = data?.s3[0]?.image[0]?.url || '/uploads/default-image.png'; 
   return (
     <article className="flex items-start gap-x-[15px] lg:gap-x-[23px]">
       <div className="size-[100px] shadow-[0px_2px_5px_0px_rgba(0,0,0,.04)] rounded-[4px] overflow-hidden shrink-0 relative">
         <NextImage
+          loader={({ src }) => imgUrl + src} 
           className="object-cover"
-          src={
-            data.image ? imageUrl + data.image[0]?.url : "/design-screens.png"
-          }
+          src={imageUrl || "/design-screens.png"}
           alt="Design screens"
           sizes="10vw"
           fill
@@ -209,14 +197,13 @@ const NewestAdditionCard = () => {
       </div>
       <div className="flex-auto">
         <h1 className="text-sm leading-[16.94px] lg:text-lg lg:leading-[21.78px] font-bold text-dark-blue-600">
-          SEO Enterprise
+          {data?.s3[0]?.title}
         </h1>
         <p className="text-sm leading-[16.94px] font-light text-dark-blue-600 mt-[7.5px] lg:mt-[11px]">
-          Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-          accusantium doloremque{" "}
+        {data?.s3[0]?.description}{" "}
         </p>
         <span className="text-sm block mt-[7.5px] lg:mt-[15px] leading-[16.94px] font-light text-dark-blue-600">
-          Starts at $40k, 12 weeks
+        {data?.s3[0]?.span}
         </span>
       </div>
     </article>
@@ -255,22 +242,15 @@ const NewestAdditions = () => {
 }
 
 const PopularProjectCard = () => {
-  const { data, error, baseUrl } = useFetch2(
-    "/api/popular-project-cards?populate=*"
-  )
-
-  if (error)
-    return <div className="w-full m-auto text-center">Error: {error}</div>
-  if (!data || !Array.isArray(data))
-    return <div className="w-full m-auto text-center">Loading...</div>
+  const { data, error } = useFetch2('/api/page1?populate=s4.image');
+  const imageUrl = data?.s4[0]?.image[0]?.url || '/uploads/default-image.png'; 
   return (
     <article className="flex items-start gap-x-[23px]">
       <div className="size-[100px] shadow-[0px_2px_5px_0px_rgba(0,0,0,.04)] rounded-[4px] overflow-hidden shrink-0 relative">
         <NextImage
+          loader={({ src }) => imgUrl + src} 
           className="object-cover"
-          src={
-            data.image ? imageUrl + data.image[0]?.url : "/design-screens.png"
-          }
+          src={imageUrl||"/design-screens.png"}
           alt="Design screens"
           sizes="10vw"
           fill
@@ -278,14 +258,13 @@ const PopularProjectCard = () => {
       </div>
       <div className="flex-auto">
         <h1 className="text-lg leading-[21.78px] font-bold text-dark-blue-600">
-          SEO Enterprise
+          {data?.s4[0]?.title}
         </h1>
         <p className="text-sm leading-[16.94px] font-light text-gray-500 mt-[11px]">
-          Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-          accusantium doloremque{" "}
+          {data?.s4[0]?.description}{" "}
         </p>
         <span className="text-sm block mt-[15px] leading-[16.94px] font-light text-dark-blue-600">
-          Starts at $40k, 12 weeks
+          {data?.s4[0]?.span}
         </span>
       </div>
     </article>
@@ -592,27 +571,17 @@ const MarketingAutomationCampaigns = () => {
 }
 
 const CategoryTransparentVerticalCard = () => {
-  const { data, error, baseUrl } = useFetch(
-    "/api/most-popular-projects?populate=*"
-  )
-
-  if (error)
-    return <div className="w-full m-auto text-center">Error: {error}</div>
-
-  if (!data) return <div className="w-full m-auto text-center">Loading...</div>
-
-  const imageSrc =
-    data.image && data.image.length > 0
-      ? `${imageUrl}${data.image[0].url}`
-      : "/working-2.jpeg"
+  const { data} = useFetch2('/api/page1?populate=s5.image');
+  const imageUrl = data?.s5[0]?.image[0]?.url || '/uploads/default-image.png'; 
 
   return (
     <article className="flex rounded-lg overflow-hidden relative p-5 lg:px-[50px] lg:py-[55px] bg-white shadow-[0px_2px_5px_0px_theme(colors.black/[0.04])]">
       <div className="absolute inset-0">
         <NextImage
+         loader={({ src }) => imgUrl + src} 
           className="object-cover"
-          src={imageSrc}
-          alt={data.title || "Working"}
+          src={imageUrl||"/working-2.jpeg"}
+          alt="Working"
           sizes="50vw"
           fill
         />
@@ -621,11 +590,11 @@ const CategoryTransparentVerticalCard = () => {
 
       <div className="relative mt-auto flex flex-col gap-y-[31px] items-start lg:flex-row lg:items-end lg:justify-between pt-[188px] md:pt-[124px] lg:pt-[135px]">
         <h1 className="text-[22px] leading-none lg:text-[62px] lg:leading-[57.4px] font-bold text-white">
-          {data.title}
+          {data?.s5[2]?.title}
         </h1>
 
         <button className="focus-visible:outline-none whitespace-nowrap shrink-0 border-2 h-10 border-white px-3.5 rounded-[5px] flex items-center justify-center text-[13px] leading-6 font-semibold text-white">
-          {data.button}
+          {data?.s5[2]?.span}
         </button>
       </div>
     </article>
@@ -633,22 +602,17 @@ const CategoryTransparentVerticalCard = () => {
 }
 
 const CategoryVerticalCard = () => {
-  const { data, error } = useFetch("/api/category-vertical-cards?populate=*")
-
-  if (error)
-    return <div className="w-full m-auto text-center">Error: {error}</div>
-
-  if (!data) return <div className="w-full m-auto text-center">Loading...</div>
-
+  const { data} = useFetch2('/api/page1?populate=s5.image');
   return (
     <article className="relative overflow-hidden flex xs:max-md:flex-col lg:flex-col rounded-lg p-5 lg:pt-[55px] lg:px-[50px] lg:pb-[7.56px] bg-black shadow-[0px_2px_5px_0px_theme(colors.black/[0.04])]">
       <div className="md:max-lg:pb-[124px] flex md:flex-col md:max-lg:gap-y-[31px] lg:flex-row items-center md:items-start xs:max-md:justify-between lg:justify-between">
         <h1 className="text-[22px] leading-none lg:text-[62px] lg:leading-[57.4px] font-bold text-white">
-          {data.title}
+        {data?.s5[1]?.title2}
         </h1>
 
         <button className="focus-visible:outline-none whitespace-nowrap shrink-0 border-2 h-10 border-white px-3.5 rounded-[5px] flex items-center justify-center text-[13px] leading-6 font-semibold text-white">
-          {data.button}
+        {data?.s5[1]?.button2}
+
         </button>
       </div>
 
@@ -660,19 +624,8 @@ const CategoryVerticalCard = () => {
 }
 
 const CategoryTransparentCard = ({ className }: { className?: string }) => {
-  const { data, error, baseUrl } = useFetch(
-    "/api/category-transparent-cards?populate=*"
-  )
-
-  if (error)
-    return <div className="w-full m-auto text-center">Error: {error}</div>
-
-  if (!data) return <div className="w-full m-auto text-center">Loading...</div>
-
-  const imageSrc =
-    data.image && data.image.length > 0
-      ? `${imageUrl}${data.image[0].url}`
-      : "/cpu-1.png"
+  const { data, error } = useFetch2('/api/page1?populate=s5.image');
+  const imageUrl = data?.s5[0]?.image[0]?.url || '/uploads/default-image.png'; 
 
   return (
     <article
@@ -683,17 +636,18 @@ const CategoryTransparentCard = ({ className }: { className?: string }) => {
     >
       <div className="space-y-5 flex-auto">
         <h1 className="text-lg leading-[21.78px] lg:text-4xl lg:leading-[43.57px] font-bold text-dark-blue-600">
-          {data.title}
+          {data?.s5[0]?.title}
         </h1>
 
         <button className="focus-visible:outline-none whitespace-nowrap shrink-0 border-2 h-10 border-primary-500 px-3.5 rounded-[5px] flex items-center justify-center text-[13px] leading-6 font-semibold text-primary-500">
-          {data.button}
+        {data?.s5[0]?.button}
         </button>
       </div>
       <div className="relative shrink-0 xs:max-md:absolute xs:max-md:top-5 xs:max-md:right-[-115.26px]">
         <NextImage
+          loader={({ src }) => imgUrl + src} 
           className="object-contain mx-auto"
-          src={imageSrc}
+          src={imageUrl ||"/cpu-1.png"}
           alt="CPU"
           sizes="25vw"
           width={206.15}
