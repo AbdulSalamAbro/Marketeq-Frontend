@@ -17,8 +17,8 @@ import {
 } from "@/components/ui"
 import useFetch2 from "./useFetch2"
 
-// const imgUrl = "https://strapi-marketq-c41141cea442.herokuapp.com"
-const imgUrl = "http://localhost:1337"
+const imgUrl = "https://strapi-marketq-c41141cea442.herokuapp.com"
+// const imgUrl = "http://localhost:1337"
 const Hero = () => {
   const { data, error } = useFetch2("/api/page1?populate=s1.image")
 
@@ -673,8 +673,8 @@ const Categories = () => {
                 ? imgUrl + data.s8[3].image[0].url
                 : "/working-2.jpeg"
             }
-            button={data?.s8[3].button}
-            title={data?.s8[3].title}
+            button={data?.s8[2].button}
+            title={data?.s8[2].title}
           />
         </div>
         <div className="contents md:grid gap-y-3 lg:gap-y-8">
@@ -684,8 +684,8 @@ const Categories = () => {
                 ? imgUrl + data.s8[4].image[0].url
                 : "/working-2.jpeg"
             }
-            button={data?.s8[4].button}
-            title={data?.s8[4].title}
+            button={data?.s8[2].button}
+            title={data?.s8[2].title}
           />
           <CategoryTransparentCard
             image={
@@ -693,8 +693,8 @@ const Categories = () => {
                 ? imgUrl + data.s8[5].image[0].url
                 : "/working-2.jpeg"
             }
-            button={data?.s8[5].button}
-            title={data?.s8[5].title}
+            button={data?.s8[2].button}
+            title={data?.s8[2].title}
           />
 
           <CategoryVerticalCard />
