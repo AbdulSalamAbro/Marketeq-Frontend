@@ -589,9 +589,6 @@ const CategoryVerticalCard = () => {
 }
 
 const CategoryTransparentCard = ({ className,image, title, button }: { className?: string,image:any, title:any, button:any }) => {
-  const { data, error } = useFetch2('/api/page1?populate=s5.image');
-  const imageUrl = data?.s5[0]?.image[0]?.url || '/uploads/default-image.png'; 
-
   return (
     <article
       className={cn(
