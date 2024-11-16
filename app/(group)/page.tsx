@@ -18,6 +18,7 @@ import {
 import useFetch2 from "./useFetch2";
 
   const imgUrl = "https://strapi-marketq-c41141cea442.herokuapp.com"
+  // const imgUrl = "http://localhost:1337"; 
 const Hero = () => {
   const { data, error } = useFetch2('/api/page1?populate=s1.image');
 
@@ -61,18 +62,14 @@ const Hero = () => {
   )
 }
 
-const FavoriteProjectCard = () => {
-  const { data, error } = useFetch2('/api/page1?populate=s2.image');
-  const imageUrl = data?.s2[0]?.image[0]?.url || '/uploads/default-image.png'; 
-
- 
+const FavoriteProjectCard = ({ image, title, description, span }:any) => {
   return (
     <article className="rounded-lg shrink-0 bg-white border border-[#122A4B]/[.15] overflow-hidden shadow-[0px_2px_5px_0px_rgba(0,0,0,.04)]">
       <div className="h-[140px] border-b border-black/[.15] relative">
       <NextImage
-          loader={({ src }) => imgUrl + src} 
+          loader={({ src }) => src} 
           className="object-cover"
-          src={imageUrl} 
+          src={image} 
           alt="Design screens"
           sizes="25vw"
           fill
@@ -80,15 +77,15 @@ const FavoriteProjectCard = () => {
       </div>
       <div className="p-5">
         <h1 className="text-base leading-[19.36px] font-bold text-dark-blue-600">
-          {data?.s2[0]?.title}
+          {title}
         </h1>
         <p className="text-sm mt-3 leading-[16.94px] font-light text-gray-500">
-          {data?.s2[0]?.description}
+          {description}
         </p>
 
         <div className="flex items-center mt-[9px] gap-x-[16.33px] md:mt-[16.98px] justify-between">
           <span className="text-sm leading-[16.94px] text-dark-blue-600 font-light">
-            {data?.s2[0]?.span}
+            {span}
           </span>
 
           <Favorite
@@ -103,6 +100,7 @@ const FavoriteProjectCard = () => {
 
 const FavoriteProjects = () => {
   const [controller, setController] = useState<Swiper>()
+  const { data} = useFetch2('/api/page1?populate=s2.image');
   return (
     <div className="max-w-[1420px] mx-auto">
       <div className="flex items-end justify-between">
@@ -138,27 +136,16 @@ const FavoriteProjects = () => {
           onInit={setController}
           spaceBetween={20}
         >
-          <SwiperSlide>
-            <FavoriteProjectCard />
-          </SwiperSlide>
-          <SwiperSlide>
-            <FavoriteProjectCard />
-          </SwiperSlide>
-          <SwiperSlide>
-            <FavoriteProjectCard />
-          </SwiperSlide>
-          <SwiperSlide>
-            <FavoriteProjectCard />
-          </SwiperSlide>
-          <SwiperSlide>
-            <FavoriteProjectCard />
-          </SwiperSlide>
-          <SwiperSlide>
-            <FavoriteProjectCard />
-          </SwiperSlide>
-          <SwiperSlide>
-            <FavoriteProjectCard />
-          </SwiperSlide>
+            {data?.s2 && data.s2.map((project:any, index:any) => (
+            <SwiperSlide key={index}>
+              <FavoriteProjectCard
+                image={imgUrl + project.image[0].url}
+                title={project.title}
+                description={project.description}
+                span={project.span}
+              />
+            </SwiperSlide>
+          ))}
         </SwiperRoot>
 
         {controller?.allowSlideNext && (
@@ -180,16 +167,14 @@ const FavoriteProjects = () => {
   )
 }
 
-const NewestAdditionCard = () => {
-  const { data, error } = useFetch2('/api/page1?populate=s3.image');
-  const imageUrl = data?.s3[0]?.image[0]?.url || '/uploads/default-image.png'; 
+const NewestAdditionCard = ({ image, title, description}:any) => {
   return (
     <article className="flex items-start gap-x-[15px] lg:gap-x-[23px]">
       <div className="size-[100px] shadow-[0px_2px_5px_0px_rgba(0,0,0,.04)] rounded-[4px] overflow-hidden shrink-0 relative">
         <NextImage
-          loader={({ src }) => imgUrl + src} 
+          loader={({ src }) => src} 
           className="object-cover"
-          src={imageUrl || "/design-screens.png"}
+          src={image || "/design-screens.png"}
           alt="Design screens"
           sizes="10vw"
           fill
@@ -197,13 +182,13 @@ const NewestAdditionCard = () => {
       </div>
       <div className="flex-auto">
         <h1 className="text-sm leading-[16.94px] lg:text-lg lg:leading-[21.78px] font-bold text-dark-blue-600">
-          {data?.s3[0]?.title}
+          {title}
         </h1>
         <p className="text-sm leading-[16.94px] font-light text-dark-blue-600 mt-[7.5px] lg:mt-[11px]">
-        {data?.s3[0]?.description}{" "}
+        {description}{" "}
         </p>
         <span className="text-sm block mt-[7.5px] lg:mt-[15px] leading-[16.94px] font-light text-dark-blue-600">
-        {data?.s3[0]?.span}
+        fixed
         </span>
       </div>
     </article>
@@ -211,6 +196,7 @@ const NewestAdditionCard = () => {
 }
 
 const NewestAdditions = () => {
+  const { data } = useFetch2('/api/page1?populate=s3.image');
   return (
     <div className="max-w-[1420px] mx-auto">
       <div className="flex items-end justify-between">
@@ -224,12 +210,12 @@ const NewestAdditions = () => {
       </div>
 
       <div className="mt-[29px] grid md:grid-cols-2 gap-[25px] lg:gap-y-10 lg:gap-x-[42px]">
-        <NewestAdditionCard />
-        <NewestAdditionCard />
-        <NewestAdditionCard />
-        <NewestAdditionCard />
-        <NewestAdditionCard />
-        <NewestAdditionCard />
+      {data?.s3 && data.s3.map((project:any, index:any) => (
+        <NewestAdditionCard 
+             image={imgUrl + project.image[0].url}
+             title={project.title}
+             description={project.description}/>
+      ))}
       </div>
 
       <div className="flex items-center mt-[29px] justify-center lg:hidden">
@@ -241,16 +227,15 @@ const NewestAdditions = () => {
   )
 }
 
-const PopularProjectCard = () => {
-  const { data, error } = useFetch2('/api/page1?populate=s4.image');
-  const imageUrl = data?.s4[0]?.image[0]?.url || '/uploads/default-image.png'; 
+const PopularProjectCard = ({image, title, description}:any) => {
+
   return (
     <article className="flex items-start gap-x-[23px]">
       <div className="size-[100px] shadow-[0px_2px_5px_0px_rgba(0,0,0,.04)] rounded-[4px] overflow-hidden shrink-0 relative">
         <NextImage
-          loader={({ src }) => imgUrl + src} 
+          loader={({ src }) =>  src} 
           className="object-cover"
-          src={imageUrl||"/design-screens.png"}
+          src={image||"/design-screens.png"}
           alt="Design screens"
           sizes="10vw"
           fill
@@ -258,13 +243,13 @@ const PopularProjectCard = () => {
       </div>
       <div className="flex-auto">
         <h1 className="text-lg leading-[21.78px] font-bold text-dark-blue-600">
-          {data?.s4[0]?.title}
+          {title}
         </h1>
         <p className="text-sm leading-[16.94px] font-light text-gray-500 mt-[11px]">
-          {data?.s4[0]?.description}{" "}
+          {description}{" "}
         </p>
         <span className="text-sm block mt-[15px] leading-[16.94px] font-light text-dark-blue-600">
-          {data?.s4[0]?.span}
+          this is not editable
         </span>
       </div>
     </article>
@@ -272,6 +257,8 @@ const PopularProjectCard = () => {
 }
 
 const PopularProjects = () => {
+  const { data } = useFetch2('/api/page1?populate=s4.image');
+
   return (
     <div className="max-w-[1420px] mx-auto">
       <div className="flex items-end justify-between">
@@ -300,14 +287,19 @@ const PopularProjects = () => {
         </TabsList>
 
         <TabsContent value="view-all">
-          <div className="pt-[29px] grid md:grid-cols-2 gap-[25px] lg:gap-y-10 lg:gap-x-[42px]">
-            <PopularProjectCard />
-            <PopularProjectCard />
-            <PopularProjectCard />
-            <PopularProjectCard />
-            <PopularProjectCard />
-            <PopularProjectCard />
-          </div>
+          
+            { data?.s4.map((project:any,index:any)=>(
+              <div className="pt-[29px] grid md:grid-cols-2 gap-[25px] lg:gap-y-10 lg:gap-x-[42px]" key={index}>
+            <PopularProjectCard 
+            image = {imgUrl + project.image[0].url}
+            title = {project.title}
+            description = {project.title}
+            />
+            </div>
+            ))}
+
+
+          
         </TabsContent>
       </Tabs>
 
@@ -321,6 +313,8 @@ const PopularProjects = () => {
 }
 
 const OnlineSalesFunnels = () => {
+  const { data } = useFetch2('/api/page1?populate=s5.image');
+
   const [controller, setController] = useState<Swiper>()
   return (
     <div className="max-w-[1420px] mx-auto">
@@ -361,27 +355,16 @@ const OnlineSalesFunnels = () => {
           onInit={setController}
           spaceBetween={20}
         >
-          <SwiperSlide>
-            <FavoriteProjectCard />
-          </SwiperSlide>
-          <SwiperSlide>
-            <FavoriteProjectCard />
-          </SwiperSlide>
-          <SwiperSlide>
-            <FavoriteProjectCard />
-          </SwiperSlide>
-          <SwiperSlide>
-            <FavoriteProjectCard />
-          </SwiperSlide>
-          <SwiperSlide>
-            <FavoriteProjectCard />
-          </SwiperSlide>
-          <SwiperSlide>
-            <FavoriteProjectCard />
-          </SwiperSlide>
-          <SwiperSlide>
-            <FavoriteProjectCard />
-          </SwiperSlide>
+          {data?.s5 && data.s5.map((project:any, index:any) => (
+            <SwiperSlide key={index}>
+              <FavoriteProjectCard
+                image={imgUrl + project.image[0].url || "/cpu-1.png"}
+                title={project.title}
+                description={project.description}
+                span={project.span}
+              />
+            </SwiperSlide>
+          ))}
         </SwiperRoot>
 
         {controller?.allowSlideNext && (
@@ -404,6 +387,8 @@ const OnlineSalesFunnels = () => {
 
 const CustomerServiceSolutions = () => {
   const [controller, setController] = useState<Swiper>()
+  const { data } = useFetch2('/api/page1?populate=s6.image');
+
   return (
     <div className="max-w-[1420px] mx-auto">
       <div className="flex items-end lg:justify-between">
@@ -445,27 +430,16 @@ const CustomerServiceSolutions = () => {
           onInit={setController}
           spaceBetween={20}
         >
-          <SwiperSlide>
-            <FavoriteProjectCard />
-          </SwiperSlide>
-          <SwiperSlide>
-            <FavoriteProjectCard />
-          </SwiperSlide>
-          <SwiperSlide>
-            <FavoriteProjectCard />
-          </SwiperSlide>
-          <SwiperSlide>
-            <FavoriteProjectCard />
-          </SwiperSlide>
-          <SwiperSlide>
-            <FavoriteProjectCard />
-          </SwiperSlide>
-          <SwiperSlide>
-            <FavoriteProjectCard />
-          </SwiperSlide>
-          <SwiperSlide>
-            <FavoriteProjectCard />
-          </SwiperSlide>
+        {data?.s6 && data.s6.map((project:any, index:any) => (
+            <SwiperSlide key={index}>
+              <FavoriteProjectCard
+                image={imgUrl + project.image[0].url}
+                title={project.title}
+                description={project.description}
+                span={project.span}
+              />
+            </SwiperSlide>
+          ))}
         </SwiperRoot>
 
         {controller?.allowSlideNext && (
@@ -488,6 +462,8 @@ const CustomerServiceSolutions = () => {
 
 const MarketingAutomationCampaigns = () => {
   const [controller, setController] = useState<Swiper>()
+  const { data } = useFetch2('/api/page1?populate=s7.image');
+
   return (
     <div className="max-w-[1420px] mx-auto">
       <div className="flex items-end lg:justify-between">
@@ -529,27 +505,16 @@ const MarketingAutomationCampaigns = () => {
           onInit={setController}
           spaceBetween={20}
         >
-          <SwiperSlide>
-            <FavoriteProjectCard />
-          </SwiperSlide>
-          <SwiperSlide>
-            <FavoriteProjectCard />
-          </SwiperSlide>
-          <SwiperSlide>
-            <FavoriteProjectCard />
-          </SwiperSlide>
-          <SwiperSlide>
-            <FavoriteProjectCard />
-          </SwiperSlide>
-          <SwiperSlide>
-            <FavoriteProjectCard />
-          </SwiperSlide>
-          <SwiperSlide>
-            <FavoriteProjectCard />
-          </SwiperSlide>
-          <SwiperSlide>
-            <FavoriteProjectCard />
-          </SwiperSlide>
+        {data?.s7 && data.s7.map((project:any, index:any) => (
+            <SwiperSlide key={index}>
+              <FavoriteProjectCard
+                image={imgUrl + project.image[0].url || "/cpu-1.png"}
+                title={project.title}
+                description={project.description}
+                span={project.span}
+              />
+            </SwiperSlide>
+          ))}
         </SwiperRoot>
 
         {controller?.allowSlideNext && (
@@ -571,16 +536,15 @@ const MarketingAutomationCampaigns = () => {
 }
 
 const CategoryTransparentVerticalCard = () => {
-  const { data} = useFetch2('/api/page1?populate=s5.image');
-  const imageUrl = data?.s5[0]?.image[0]?.url || '/uploads/default-image.png'; 
+  const { data} = useFetch2('/api/page1?populate=s8.image');
 
   return (
     <article className="flex rounded-lg overflow-hidden relative p-5 lg:px-[50px] lg:py-[55px] bg-white shadow-[0px_2px_5px_0px_theme(colors.black/[0.04])]">
       <div className="absolute inset-0">
         <NextImage
-         loader={({ src }) => imgUrl + src} 
+         loader={({ src }) =>  src} 
           className="object-cover"
-          src={imageUrl||"/working-2.jpeg"}
+          src={data?.s8[0]?.image?.[0]?.url ? imgUrl + data.s8[0].image[0].url : "/working-2.jpeg"}
           alt="Working"
           sizes="50vw"
           fill
@@ -590,11 +554,11 @@ const CategoryTransparentVerticalCard = () => {
 
       <div className="relative mt-auto flex flex-col gap-y-[31px] items-start lg:flex-row lg:items-end lg:justify-between pt-[188px] md:pt-[124px] lg:pt-[135px]">
         <h1 className="text-[22px] leading-none lg:text-[62px] lg:leading-[57.4px] font-bold text-white">
-          {data?.s5[2]?.title}
+          {data?.s8[0]?.title}
         </h1>
 
         <button className="focus-visible:outline-none whitespace-nowrap shrink-0 border-2 h-10 border-white px-3.5 rounded-[5px] flex items-center justify-center text-[13px] leading-6 font-semibold text-white">
-          {data?.s5[2]?.span}
+          {data?.s8[0]?.button}
         </button>
       </div>
     </article>
@@ -602,16 +566,16 @@ const CategoryTransparentVerticalCard = () => {
 }
 
 const CategoryVerticalCard = () => {
-  const { data} = useFetch2('/api/page1?populate=s5.image');
+  const { data} = useFetch2('/api/page1?populate=s8.image');
   return (
     <article className="relative overflow-hidden flex xs:max-md:flex-col lg:flex-col rounded-lg p-5 lg:pt-[55px] lg:px-[50px] lg:pb-[7.56px] bg-black shadow-[0px_2px_5px_0px_theme(colors.black/[0.04])]">
       <div className="md:max-lg:pb-[124px] flex md:flex-col md:max-lg:gap-y-[31px] lg:flex-row items-center md:items-start xs:max-md:justify-between lg:justify-between">
         <h1 className="text-[22px] leading-none lg:text-[62px] lg:leading-[57.4px] font-bold text-white">
-        {data?.s5[1]?.title2}
+        {data?.s8[2]?.title}
         </h1>
 
         <button className="focus-visible:outline-none whitespace-nowrap shrink-0 border-2 h-10 border-white px-3.5 rounded-[5px] flex items-center justify-center text-[13px] leading-6 font-semibold text-white">
-        {data?.s5[1]?.button2}
+        {data?.s8[2]?.button}
 
         </button>
       </div>
@@ -623,7 +587,7 @@ const CategoryVerticalCard = () => {
   )
 }
 
-const CategoryTransparentCard = ({ className }: { className?: string }) => {
+const CategoryTransparentCard = ({ className,image, title, button }: { className?: string,image:any, title:any, button:any }) => {
   const { data, error } = useFetch2('/api/page1?populate=s5.image');
   const imageUrl = data?.s5[0]?.image[0]?.url || '/uploads/default-image.png'; 
 
@@ -636,18 +600,18 @@ const CategoryTransparentCard = ({ className }: { className?: string }) => {
     >
       <div className="space-y-5 flex-auto">
         <h1 className="text-lg leading-[21.78px] lg:text-4xl lg:leading-[43.57px] font-bold text-dark-blue-600">
-          {data?.s5[0]?.title}
+          {title}
         </h1>
 
         <button className="focus-visible:outline-none whitespace-nowrap shrink-0 border-2 h-10 border-primary-500 px-3.5 rounded-[5px] flex items-center justify-center text-[13px] leading-6 font-semibold text-primary-500">
-        {data?.s5[0]?.button}
+        {button}
         </button>
       </div>
       <div className="relative shrink-0 xs:max-md:absolute xs:max-md:top-5 xs:max-md:right-[-115.26px]">
         <NextImage
-          loader={({ src }) => imgUrl + src} 
+          loader={({ src }) => src} 
           className="object-contain mx-auto"
-          src={imageUrl ||"/cpu-1.png"}
+          src={image ||"/cpu-1.png"}
           alt="CPU"
           sizes="25vw"
           width={206.15}
@@ -657,8 +621,8 @@ const CategoryTransparentCard = ({ className }: { className?: string }) => {
     </article>
   )
 }
-
 const Categories = () => {
+  const { data } = useFetch2('/api/page1?populate=s8.image');
   return (
     <div className="max-w-[1420px] mx-auto">
       <div className="flex items-end justify-between">
@@ -680,12 +644,29 @@ const Categories = () => {
       <div className="mt-8 lg:mt-[42px] grid md:grid-cols-2 gap-3 lg:gap-x-8">
         <div className="contents md:grid gap-y-3 lg:gap-y-8">
           <CategoryTransparentVerticalCard />
-          <CategoryTransparentCard />
-          <CategoryTransparentCard />
+          <CategoryTransparentCard 
+            image={data?.s8[1]?.image?.[1]?.url ? imgUrl + data.s8[1].image[0].url : "/working-2.jpeg"}
+            button = {data?.s8[1].button}
+            title ={data?.s8[1].title}
+            />
+            <CategoryTransparentCard 
+            image={data?.s8[3]?.image?.[2]?.url ? imgUrl + data.s8[3].image[0].url : "/working-2.jpeg"}
+            button = {data?.s8[3].button}
+            title ={data?.s8[3].title}
+            />
         </div>
         <div className="contents md:grid gap-y-3 lg:gap-y-8">
-          <CategoryTransparentCard />
-          <CategoryTransparentCard />
+        <CategoryTransparentCard 
+            image={data?.s8[4]?.image?.[0]?.url ? imgUrl + data.s8[4].image[0].url : "/working-2.jpeg"}
+            button = {data?.s8[4].button}
+            title ={data?.s8[4].title}
+            />
+            <CategoryTransparentCard 
+            image={data?.s8[5]?.image?.[0]?.url ? imgUrl + data.s8[5].image[0].url : "/working-2.jpeg"}
+            button = {data?.s8[5].button}
+            title ={data?.s8[5].title}
+            />
+
           <CategoryVerticalCard />
         </div>
       </div>
