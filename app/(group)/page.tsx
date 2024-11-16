@@ -17,8 +17,8 @@ import {
 } from "@/components/ui"
 import useFetch2 from "./useFetch2";
 
-  const imgUrl = "https://strapi-marketq-c41141cea442.herokuapp.com"
-  // const imgUrl = "http://localhost:1337"; 
+  // const imgUrl = "https://strapi-marketq-c41141cea442.herokuapp.com"
+  const imgUrl = "http://localhost:1337"; 
 const Hero = () => {
   const { data, error } = useFetch2('/api/page1?populate=s1.image');
 
@@ -212,6 +212,7 @@ const NewestAdditions = () => {
       <div className="mt-[29px] grid md:grid-cols-2 gap-[25px] lg:gap-y-10 lg:gap-x-[42px]">
       {data?.s3 && data.s3.map((project:any, index:any) => (
         <NewestAdditionCard 
+            key={index}
              image={imgUrl + project.image[0].url}
              title={project.title}
              description={project.description}/>
