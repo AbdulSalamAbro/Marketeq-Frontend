@@ -20,22 +20,15 @@ import useFetch2 from "./useFetch2"
 const imgUrl = "https://strapi-marketq-c41141cea442.herokuapp.com"
 // const imgUrl = "http://localhost:1337"
 const Hero = () => {
-  const { data, error } = useFetch2("/api/page1?populate=s1.image")
+  const { data } = useFetch2("/api/page1?populate=s1.image")
 
-  if (error) {
-    return <div>Error: {error}</div>
-  }
-
-  if (!data) {
-    return <div>No data available</div>
-  }
   return (
     <div className="relative bg-[#313237]">
       <div className="absolute left-0 inset-y-0 right-0 lg:right-auto lg:w-[53%]">
         <NextImage
-          loader={({ src }) => imgUrl + src}
-          className="object-cover"
-          src={data.s1.image[0].url}
+          loader={({ src }) => src}
+          className="object-cover text-white"
+          src={data ? imgUrl + data?.s1.image[0].url : "/sending-emails.png"}
           alt="Sending emails"
           sizes="50vw"
           fill
@@ -46,14 +39,16 @@ const Hero = () => {
       <div className="relative max-w-[290.41px] md:max-w-[562.83px] lg:max-w-[1420px] lg:mx-auto pt-10 pl-10 pb-[75px] lg:pl-0 lg:pb-[126.25px] lg:pt-[92px]">
         <div className="lg:max-w-[493px] lg:ml-auto">
           <h1 className="text-[30px] leading-[36.31px] lg:text-4xl lg:leading-[43.57px] font-bold text-white">
-            {data.s1.title}
+            {data ? data?.s1.title : " UX / UI Experts on Demand"}
           </h1>
           <p className="text-sm leading-[16.94px] lg:text-lg mt-[7px] lg:mt-[5px] lg:leading-[21.78px] text-white font-light">
-            {data.s1.description}
+            {data
+              ? data?.s1.description
+              : "   Get your ux / ui done right with one of our ux/ui experts customizable done for you campaigns."}
           </p>
 
           <button className="focus-visible:outline-none whitespace-nowrap shrink-0 mt-[46px] lg:mt-[38px] border-2 h-10 border-white px-3.5 rounded-[5px] flex items-center justify-center text-[13px] leading-6 font-semibold text-white">
-            {data.s1.button}
+            {data ? data?.s1.button : " browse UX / UI experts"}
           </button>
         </div>
       </div>
@@ -61,14 +56,14 @@ const Hero = () => {
   )
 }
 
-const FavoriteProjectCard = ({ image, title, description, span }: any) => {
+const FavoriteProjectCard = ({ image, title, description }: any) => {
   return (
     <article className="rounded-lg shrink-0 bg-white border border-[#122A4B]/[.15] overflow-hidden shadow-[0px_2px_5px_0px_rgba(0,0,0,.04)]">
       <div className="h-[140px] border-b border-black/[.15] relative">
         <NextImage
           loader={({ src }) => src}
           className="object-cover"
-          src={image}
+          src={image || "/design-screens.png"}
           alt="Design screens"
           sizes="25vw"
           fill
@@ -84,7 +79,7 @@ const FavoriteProjectCard = ({ image, title, description, span }: any) => {
 
         <div className="flex items-center mt-[9px] gap-x-[16.33px] md:mt-[16.98px] justify-between">
           <span className="text-sm leading-[16.94px] text-dark-blue-600 font-light">
-            {span}
+            Starts at $40k, 12 weeks
           </span>
 
           <Favorite
@@ -135,17 +130,31 @@ const FavoriteProjects = () => {
           onInit={setController}
           spaceBetween={20}
         >
-          {data?.s2 &&
-            data.s2.map((project: any, index: any) => (
-              <SwiperSlide key={index}>
-                <FavoriteProjectCard
-                  image={imgUrl + project.image[0].url}
-                  title={project.title}
-                  description={project.description}
-                  span={project.span}
-                />
-              </SwiperSlide>
-            ))}
+          {data?.s2 && data.s2.length > 0
+            ? data.s2.map((project: any, index: any) => (
+                <SwiperSlide key={index}>
+                  <FavoriteProjectCard
+                    image={
+                      project?.image[0]?.url
+                        ? imgUrl + project.image[0].url
+                        : "/design-screens.png"
+                    }
+                    title={project?.title || "title"}
+                    description={
+                      project?.description || "No description available"
+                    }
+                  />
+                </SwiperSlide>
+              ))
+            : Array.from({ length: 6 }).map((_, index) => (
+                <SwiperSlide key={`fallback-${index}`}>
+                  <FavoriteProjectCard
+                    image="/design-screens.png"
+                    title="No project available"
+                    description="No description available"
+                  />
+                </SwiperSlide>
+              ))}
         </SwiperRoot>
 
         {controller?.allowSlideNext && (
@@ -188,7 +197,7 @@ const NewestAdditionCard = ({ image, title, description }: any) => {
           {description}{" "}
         </p>
         <span className="text-sm block mt-[7.5px] lg:mt-[15px] leading-[16.94px] font-light text-dark-blue-600">
-          fixed
+          Starts at $40k, 12 weeks
         </span>
       </div>
     </article>
@@ -210,15 +219,23 @@ const NewestAdditions = () => {
       </div>
 
       <div className="mt-[29px] grid md:grid-cols-2 gap-[25px] lg:gap-y-10 lg:gap-x-[42px]">
-        {data?.s3 &&
-          data.s3.map((project: any, index: any) => (
-            <NewestAdditionCard
-              key={index}
-              image={imgUrl + project.image[0].url}
-              title={project.title}
-              description={project.description}
-            />
-          ))}
+        {data?.s2 && data.s2.length > 0
+          ? data.s3.map((project: any, index: any) => (
+              <NewestAdditionCard
+                key={index}
+                image={imgUrl + project.image[0].url}
+                title={project.title}
+                description={project.description}
+              />
+            ))
+          : Array.from({ length: 6 }).map((_, index) => (
+              <NewestAdditionCard
+                key={index}
+                image="design-screens.png"
+                title="no title available"
+                description="No description available"
+              />
+            ))}
       </div>
 
       <div className="flex items-center mt-[29px] justify-center lg:hidden">
@@ -251,7 +268,7 @@ const PopularProjectCard = ({ image, title, description }: any) => {
           {description}{" "}
         </p>
         <span className="text-sm block mt-[15px] leading-[16.94px] font-light text-dark-blue-600">
-          this is not editable
+          Starts at $40k, 12 weeks
         </span>
       </div>
     </article>
@@ -363,7 +380,6 @@ const OnlineSalesFunnels = () => {
                   image={imgUrl + project.image[0].url || "/cpu-1.png"}
                   title={project.title}
                   description={project.description}
-                  span={project.span}
                 />
               </SwiperSlide>
             ))}
@@ -439,7 +455,6 @@ const CustomerServiceSolutions = () => {
                   image={imgUrl + project.image[0].url}
                   title={project.title}
                   description={project.description}
-                  span={project.span}
                 />
               </SwiperSlide>
             ))}
@@ -512,10 +527,9 @@ const MarketingAutomationCampaigns = () => {
             data.s7.map((project: any, index: any) => (
               <SwiperSlide key={index}>
                 <FavoriteProjectCard
-                  image={imgUrl + project.image[0].url || "/cpu-1.png"}
+                  image={imgUrl + project.image[0].url}
                   title={project.title}
                   description={project.description}
-                  span={project.span}
                 />
               </SwiperSlide>
             ))}
@@ -549,9 +563,7 @@ const CategoryTransparentVerticalCard = () => {
           loader={({ src }) => src}
           className="object-cover"
           src={
-            data?.s8[0]?.image?.[0]?.url
-              ? imgUrl + data.s8[0].image[0].url
-              : "/working-2.jpeg"
+            data?.s8[0]?.image?.[0]?.url ? imgUrl + data.s8[0].image[0].url : ""
           }
           alt="Working"
           sizes="50vw"
@@ -660,21 +672,25 @@ const Categories = () => {
           <CategoryTransparentVerticalCard />
           <CategoryTransparentCard
             image={
-              data?.s8[1]?.image?.[1]?.url
-                ? imgUrl + data.s8[1].image[0].url
-                : "/working-2.jpeg"
+              data?.s8[1]?.image?.[2]?.url
+                ? imgUrl + data.s8[2].image[0].url
+                : ""
             }
-            button={data?.s8[1].button}
-            title={data?.s8[1].title}
+            button={
+              data && data.s8 && data.s8[1] ? data.s8[1].button : "button"
+            }
+            title={data && data.s8[1] ? data.s8[1].title : "title"}
           />
           <CategoryTransparentCard
             image={
-              data?.s8[3]?.image?.[2]?.url
+              data?.s8[3]?.image?.[0]?.url
                 ? imgUrl + data.s8[3].image[0].url
-                : "/working-2.jpeg"
+                : ""
             }
-            button={data?.s8[2].button}
-            title={data?.s8[2].title}
+            button={
+              data && data.s8 && data.s8[3] ? data.s8[3].button : "button"
+            }
+            title={data && data.s8[3] ? data.s8[3].title : "title"}
           />
         </div>
         <div className="contents md:grid gap-y-3 lg:gap-y-8">
@@ -682,19 +698,23 @@ const Categories = () => {
             image={
               data?.s8[4]?.image?.[0]?.url
                 ? imgUrl + data.s8[4].image[0].url
-                : "/working-2.jpeg"
+                : ""
             }
-            button={data?.s8[2].button}
-            title={data?.s8[2].title}
+            button={
+              data && data.s8 && data.s8[4] ? data.s8[4].button : "button"
+            }
+            title={data && data.s8[4] ? data.s8[4].title : "title"}
           />
           <CategoryTransparentCard
             image={
               data?.s8[5]?.image?.[0]?.url
                 ? imgUrl + data.s8[5].image[0].url
-                : "/working-2.jpeg"
+                : ""
             }
-            button={data?.s8[2].button}
-            title={data?.s8[2].title}
+            button={
+              data && data.s8 && data.s8[5] ? data.s8[5].button : "button"
+            }
+            title={data && data.s8[5] ? data.s8[5].title : "title"}
           />
 
           <CategoryVerticalCard />
