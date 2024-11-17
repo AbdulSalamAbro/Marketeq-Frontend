@@ -306,18 +306,25 @@ const PopularProjects = () => {
         </TabsList>
 
         <TabsContent value="view-all">
-          {data?.s4.map((project: any, index: any) => (
-            <div
-              className="pt-[29px] grid md:grid-cols-2 gap-[25px] lg:gap-y-10 lg:gap-x-[42px]"
-              key={index}
-            >
-              <PopularProjectCard
-                image={imgUrl + project.image[0].url}
-                title={project.title}
-                description={project.title}
-              />
-            </div>
-          ))}
+          <div className="pt-[29px] grid md:grid-cols-2 gap-[25px] lg:gap-y-10 lg:gap-x-[42px]">
+            {data?.s4 && data.s4.length > 0
+              ? data.s4.map((project: any, index: any) => (
+                  <PopularProjectCard
+                    key={index}
+                    image={imgUrl + project.image[0].url}
+                    title={project.title}
+                    description={project.title}
+                  />
+                ))
+              : Array.from({ length: 6 }).map((_, index) => (
+                  <PopularProjectCard
+                    key={index}
+                    image="design-screens.png"
+                    title="no title available"
+                    description="No description available"
+                  />
+                ))}
+          </div>
         </TabsContent>
       </Tabs>
 
@@ -373,16 +380,31 @@ const OnlineSalesFunnels = () => {
           onInit={setController}
           spaceBetween={20}
         >
-          {data?.s5 &&
-            data.s5.map((project: any, index: any) => (
-              <SwiperSlide key={index}>
-                <FavoriteProjectCard
-                  image={imgUrl + project.image[0].url || "/cpu-1.png"}
-                  title={project.title}
-                  description={project.description}
-                />
-              </SwiperSlide>
-            ))}
+          {data?.s5 && data.s5.length > 0
+            ? data.s5.map((project: any, index: any) => (
+                <SwiperSlide key={index}>
+                  <FavoriteProjectCard
+                    image={
+                      project?.image[0]?.url
+                        ? imgUrl + project.image[0].url
+                        : "/design-screens.png"
+                    }
+                    title={project?.title || "title"}
+                    description={
+                      project?.description || "No description available"
+                    }
+                  />
+                </SwiperSlide>
+              ))
+            : Array.from({ length: 6 }).map((_, index) => (
+                <SwiperSlide key={`fallback-${index}`}>
+                  <FavoriteProjectCard
+                    image="/design-screens.png"
+                    title="No project available"
+                    description="No description available"
+                  />
+                </SwiperSlide>
+              ))}
         </SwiperRoot>
 
         {controller?.allowSlideNext && (
@@ -448,16 +470,31 @@ const CustomerServiceSolutions = () => {
           onInit={setController}
           spaceBetween={20}
         >
-          {data?.s6 &&
-            data.s6.map((project: any, index: any) => (
-              <SwiperSlide key={index}>
-                <FavoriteProjectCard
-                  image={imgUrl + project.image[0].url}
-                  title={project.title}
-                  description={project.description}
-                />
-              </SwiperSlide>
-            ))}
+          {data?.s6 && data.s6.length > 0
+            ? data.s6.map((project: any, index: any) => (
+                <SwiperSlide key={index}>
+                  <FavoriteProjectCard
+                    image={
+                      project?.image[0]?.url
+                        ? imgUrl + project.image[0].url
+                        : "/design-screens.png"
+                    }
+                    title={project?.title || "title"}
+                    description={
+                      project?.description || "No description available"
+                    }
+                  />
+                </SwiperSlide>
+              ))
+            : Array.from({ length: 6 }).map((_, index) => (
+                <SwiperSlide key={`fallback-${index}`}>
+                  <FavoriteProjectCard
+                    image="/design-screens.png"
+                    title="No project available"
+                    description="No description available"
+                  />
+                </SwiperSlide>
+              ))}
         </SwiperRoot>
 
         {controller?.allowSlideNext && (
@@ -523,16 +560,31 @@ const MarketingAutomationCampaigns = () => {
           onInit={setController}
           spaceBetween={20}
         >
-          {data?.s7 &&
-            data.s7.map((project: any, index: any) => (
-              <SwiperSlide key={index}>
-                <FavoriteProjectCard
-                  image={imgUrl + project.image[0].url}
-                  title={project.title}
-                  description={project.description}
-                />
-              </SwiperSlide>
-            ))}
+          {data?.s7 && data.s7.length > 0
+            ? data.s7.map((project: any, index: any) => (
+                <SwiperSlide key={index}>
+                  <FavoriteProjectCard
+                    image={
+                      project?.image[0]?.url
+                        ? imgUrl + project.image[0].url
+                        : "/design-screens.png"
+                    }
+                    title={project?.title || "title"}
+                    description={
+                      project?.description || "No description available"
+                    }
+                  />
+                </SwiperSlide>
+              ))
+            : Array.from({ length: 6 }).map((_, index) => (
+                <SwiperSlide key={`fallback-${index}`}>
+                  <FavoriteProjectCard
+                    image="/design-screens.png"
+                    title="No project available"
+                    description="No description available"
+                  />
+                </SwiperSlide>
+              ))}
         </SwiperRoot>
 
         {controller?.allowSlideNext && (
