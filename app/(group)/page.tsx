@@ -17,8 +17,8 @@ import {
 } from "@/components/ui"
 import useFetch2 from "./useFetch2"
 
-// const imgUrl = "https://strapi-marketq-c41141cea442.herokuapp.com"
-const imgUrl = "http://localhost:1337"
+const imgUrl = "https://strapi-marketq-c41141cea442.herokuapp.com"
+// const imgUrl = "http://localhost:1337"
 const Hero = () => {
   const { data } = useFetch2("/api/page1?populate=s1.image")
 

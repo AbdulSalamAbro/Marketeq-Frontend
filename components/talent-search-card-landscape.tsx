@@ -35,6 +35,7 @@ export const TalentSearchCardLandscape = ({
   skills,
   hourlyrate,
   talentName,
+  availability,
 }: any) => {
   const [isOpen, toggleIsOpen] = useToggle(false)
   const [value, setValue] = React.useState("")
@@ -160,7 +161,7 @@ export const TalentSearchCardLandscape = ({
                 </span>
                 <div className="inline-flex gap-x-1 items-center">
                   <span className="text-sm text-[#122A4B] leading-[16.94px] font-bold">
-                    40 hrs
+                    {availability + "hrs" || "40 hrs"}
                   </span>
                   <span className="text-sm text-[#122A4B] leading-[16.94px] font-light">
                     / wk
@@ -176,7 +177,7 @@ export const TalentSearchCardLandscape = ({
                 </span>
 
                 <span className="text-sm text-[#122A4B] leading-[16.94px] font-bold">
-                  {experience || "14 years"}
+                  {experience + " years" || "14 years"}
                 </span>
               </div>
             </div>
