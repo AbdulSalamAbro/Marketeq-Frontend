@@ -26,7 +26,16 @@ import {
   Input,
 } from "./ui"
 
-export const TalentSearchCardLandscape = () => {
+export const TalentSearchCardLandscape = ({
+  image,
+  star,
+  jobTitle,
+  location,
+  experience,
+  skills,
+  hourlyrate,
+  talentName,
+}: any) => {
   const [isOpen, toggleIsOpen] = useToggle(false)
   const [value, setValue] = React.useState("")
   return (
@@ -34,7 +43,7 @@ export const TalentSearchCardLandscape = () => {
       <div className="px-3 pt-3 lg:p-10 flex gap-x-[13px] lg:gap-x-[17px] justify-between">
         <div className="relative inline-block">
           <Avatar className="lg:size-[140px] size-[62px]" size="2xl">
-            <AvatarImage src="/woman.jpg" alt="Woman" />
+            <AvatarImage src={image || "/woman.jpg"} alt="Woman" />
             <AvatarFallback>W</AvatarFallback>
           </Avatar>
           <span className="lg:size-[29px] size-[18px] absolute inline-flex items-center justify-center rounded-full bottom-2 lg:bottom-[18.5px] left-[-1.5px] border-[1.69px] lg:border-[1.5px] border-white bg-success-500">
@@ -46,10 +55,10 @@ export const TalentSearchCardLandscape = () => {
           <div className="flex flex-col gap-y-[5.5px] lg:gap-y-3 justify-center">
             <div className="flex flex-col gap-y-[5.5px] lg:gap-y-1">
               <h1 className="text-[13px] leading-[15.73px] lg:text-[22px] font-bold lg:leading-[29.96px] text-dark-blue-400">
-                rightflair2046
+                {talentName || "rightflair2046"}
               </h1>
               <p className="text-[11px] leading-[13.31px] lg:text-lg lg:leading-[24.52px] font-light text-gray-500">
-                Project Manager
+                {jobTitle || "Project Manager"}
               </p>
             </div>
 
@@ -57,7 +66,7 @@ export const TalentSearchCardLandscape = () => {
               <div className="inline-flex items-center gap-x-[3px] lg:gap-x-1 shrink-0 py-[3px] px-1.5 lg:px-2 bg-primary-500 text-white rounded-[4px] shadow-[0px_0.75px_1.51px_0px_rgba(16,24,40,.05)]">
                 <Star className="size-3 fill-white" />
                 <span className="text-[10px] leading-[12.1px] lg:text-xs lg:leading-[14.52px] font-medium">
-                  5.0
+                  {star || 5.0}
                 </span>
               </div>
               <span className="text-[10px] leading-[12.1px] lg:text-xs lg:leading-[14.52px] text-primary-500">
@@ -68,7 +77,7 @@ export const TalentSearchCardLandscape = () => {
             <div className="flex items-center gap-x-2 xs:max-lg:hidden">
               <MarkerPin02 className="size-[15px] text-primary-500 shrink-0" />
               <span className="text-xs leading-5 text-primary-500 font-semibold">
-                Italy
+                {location || "  Italy"}
               </span>
             </div>
           </div>
@@ -167,7 +176,7 @@ export const TalentSearchCardLandscape = () => {
                 </span>
 
                 <span className="text-sm text-[#122A4B] leading-[16.94px] font-bold">
-                  14 years
+                  {experience || "14 years"}
                 </span>
               </div>
             </div>
@@ -181,7 +190,7 @@ export const TalentSearchCardLandscape = () => {
             Rate
           </span>
           <span className="text-[15px] leading-[18.15px] lg:text-xl lg:leading-[24.2px] font-light text-[#122A4B]">
-            <span className="font-bold">$85</span>
+            <span className="font-bold">{hourlyrate || "$85"}</span>
             /hr
           </span>
         </div>
@@ -206,7 +215,7 @@ export const TalentSearchCardLandscape = () => {
           </span>
 
           <span className="text-[10px] leading-[12.1px] lg:text-sm text-[#122A4B] lg:leading-[16.94px] font-bold">
-            14 years
+            {experience || "14 years"}
           </span>
         </div>
       </div>
@@ -217,7 +226,7 @@ export const TalentSearchCardLandscape = () => {
             Rate
           </span>
           <span className="text-xl leading-[24.2px] font-light text-[#122A4B]">
-            <span className="font-bold">$85</span>
+            <span className="font-bold">{hourlyrate || "$85"}</span>
             /hr
           </span>
         </div>
@@ -233,63 +242,7 @@ export const TalentSearchCardLandscape = () => {
               visual="gray"
               variant="link"
             >
-              Wireframing
-            </Button>
-            <Button
-              className="text-[10px] lg:text-xs leading-5 opacity-50 hover:opacity-100"
-              visual="gray"
-              variant="link"
-            >
-              Axure RP
-            </Button>
-            <Button
-              className="text-[10px] lg:text-xs leading-5 opacity-50 hover:opacity-100"
-              visual="gray"
-              variant="link"
-            >
-              Visual Design
-            </Button>
-            <Button
-              className="text-[10px] lg:text-xs leading-5 opacity-50 hover:opacity-100"
-              visual="gray"
-              variant="link"
-            >
-              Wireframing
-            </Button>
-            <Button
-              className="text-[10px] lg:text-xs leading-5 opacity-50 hover:opacity-100"
-              visual="gray"
-              variant="link"
-            >
-              Axure RP
-            </Button>
-            <Button
-              className="text-[10px] lg:text-xs leading-5 opacity-50 hover:opacity-100"
-              visual="gray"
-              variant="link"
-            >
-              Visual Design
-            </Button>
-            <Button
-              className="text-[10px] lg:text-xs leading-5 opacity-50 hover:opacity-100"
-              visual="gray"
-              variant="link"
-            >
-              Sketch App
-            </Button>
-            <Button
-              className="text-[10px] lg:text-xs leading-5 opacity-50 hover:opacity-100"
-              visual="gray"
-              variant="link"
-            >
-              Wireframing
-            </Button>
-            <Button
-              className="text-[10px] lg:text-xs leading-5 opacity-50 hover:opacity-100"
-              visual="gray"
-              variant="link"
-            >
-              Axure RP
+              {skills || "Wireframing"}
             </Button>
           </div>
         </div>

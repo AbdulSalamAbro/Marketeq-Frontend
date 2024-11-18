@@ -940,8 +940,8 @@ export default function TalentSearch() {
   const [value, setValue] = useState([GRID_LAYOUT])
   const [isOpen, toggleIsOpen] = useToggle(false)
   const { data } = useFetch2("/api/talent-search?populate=talents.image")
-  const imgUrl = "https://strapi-marketq-c41141cea442.herokuapp.com"
-  // const imgUrl = "http://localhost:1337"
+  // const imgUrl = "https://strapi-marketq-c41141cea442.herokuapp.com"
+  const imgUrl = "http://localhost:1337"
   return (
     <>
       <Dialog open={isOpen} onOpenChange={toggleIsOpen}>
@@ -1149,10 +1149,20 @@ export default function TalentSearch() {
               </div>
             ) : (
               <div className="grid gap-3 md:gap-3.5 lg:gap-6">
-                <TalentSearchCardLandscape />
-                <TalentSearchCardLandscape />
-                <TalentSearchCardLandscape />
-                <TalentSearchCardLandscape />
+                {data?.talents?.length > 0 &&
+                  data?.talents.map((talent: any, index: any) => (
+                    <TalentSearchCardLandscape
+                      key={index}
+                      star={talent.star}
+                      image={imgUrl + talent.image[0].url}
+                      jobTitle={talent.jobTitle}
+                      talentName={talent.talentName}
+                      location={talent.location}
+                      experience={talent.experience}
+                      hourlyrate={talent.hourlyrate}
+                      Skills={talent.skills}
+                    />
+                  ))}
               </div>
             )}
           </div>
