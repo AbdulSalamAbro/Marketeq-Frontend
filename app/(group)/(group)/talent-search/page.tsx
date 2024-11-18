@@ -1160,7 +1160,7 @@ export default function TalentSearch() {
                       location={talent.location}
                       experience={talent.experience}
                       hourlyrate={talent.hourlyrate}
-                      Skills={talent.skills}
+                      skills={talent.skills}
                       availability={talent.availability}
                     />
                   ))}

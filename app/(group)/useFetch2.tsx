@@ -22,7 +22,6 @@ interface ElementData {
   s8: any
   talents: any
   name: string
-  skills: []
 }
 const useFetch2 = (url: string) => {
   const [data, setData] = useState<ElementData | null>(null)

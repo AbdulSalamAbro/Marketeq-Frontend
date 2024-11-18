@@ -243,7 +243,20 @@ export const TalentSearchCardLandscape = ({
               visual="gray"
               variant="link"
             >
-              {skills || "Wireframing"}
+              {skills && skills.length > 0 ? (
+                <div className="flex flex-wrap gap-3">
+                  {skills.map((skill: string, index: number) => (
+                    <span
+                      key={index}
+                      className="bg-gray-200 text-xs px-2 py-1 rounded-md"
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              ) : (
+                <p>No skills listed</p>
+              )}
             </Button>
           </div>
         </div>
