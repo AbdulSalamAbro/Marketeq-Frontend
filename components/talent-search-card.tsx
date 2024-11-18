@@ -2,14 +2,20 @@ import { Check, MarkerPin02, Star } from "@blend-metrics/icons"
 import NextLink from "./next-link"
 import { Avatar, AvatarFallback, AvatarImage, Button, Favorite } from "./ui"
 
-export const TalentSearchCard = () => {
+export const TalentSearchCard = ({
+  image,
+  talentName,
+  jobTitle,
+  location,
+  star,
+}: any) => {
   return (
     <article className="rounded-lg flex flex-col shadow-[0px_2px_5px_0px_rgba(0,0,0,.04)] bg-white border border-gray-200">
       <div className="relative p-5 lg:pt-[35px] lg:p-[30px] lg:pb-[25px]">
         <div className="inline-flex top-[11px] left-[11px] absolute items-center gap-x-1 shrink-0 py-[3px] px-1.5 lg:py-1 lg:px-2 bg-primary-500 text-white rounded-[4px] shadow-[0px_0.75px_1.51px_0px_rgba(16,24,40,.05)]">
           <Star className="size-3 fill-white" />
           <span className="text-[10px] leading-[12.1px] lg:text-xs lg:leading-[14.52px] font-medium">
-            5.0
+            {star || "5.0"}
           </span>
         </div>
 
@@ -21,7 +27,7 @@ export const TalentSearchCard = () => {
         <div className="flex justify-center">
           <NextLink href="#" className="relative inline-block">
             <Avatar className="size-[62px] lg:size-[116px]" size="2xl">
-              <AvatarImage src="/woman.jpg" alt="Woman" />
+              <AvatarImage src={image || "/woman.jpg"} alt="Woman" />
               <AvatarFallback>W</AvatarFallback>
             </Avatar>
             <span className="size-[18px] lg:size-[29px] absolute inline-flex items-center justify-center rounded-full bottom-[4.28px] left-1 border-[1.5px] border-white bg-success-500">
@@ -35,10 +41,10 @@ export const TalentSearchCard = () => {
             href="#"
             className="block text-[13px] hover:underline leading-[15.73px] lg:text-base text-center lg:leading-[21.79px] font-bold text-gray-[#122A4B]"
           >
-            berra.unall4
+            {talentName || "berra.unall4"}
           </NextLink>
           <p className="text-center text-[11px] leading-[13.31px] lg:text-sm lg:leading-[19.07px] font-light text-[#585C65]">
-            Lead Software Developer
+            {jobTitle || "Lead Software Developer"}
           </p>
         </div>
 
@@ -47,7 +53,8 @@ export const TalentSearchCard = () => {
             className="xs:max-lg:text-[10px] xs:max-lg:leading-5 xs:max-lg:gap-x-1 text-xs leading-5"
             variant="link"
           >
-            <MarkerPin02 className="size-3 lg:size-[15px]" /> Slovakia
+            <MarkerPin02 className="size-3 lg:size-[15px]" />{" "}
+            {location || "Slovakia"}
           </Button>
         </div>
       </div>

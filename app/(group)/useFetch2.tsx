@@ -8,8 +8,10 @@ interface ElementData {
   title: string
   description: string
   button: string
+  jobTitle: string
   image: Image[]
   span: string
+  star: number
   s1: any
   s2: any
   s3: any
@@ -18,6 +20,8 @@ interface ElementData {
   s6: any
   s7: any
   s8: any
+  talents: any
+  name: string
 }
 const useFetch2 = (url: string) => {
   const [data, setData] = useState<ElementData | null>(null)
